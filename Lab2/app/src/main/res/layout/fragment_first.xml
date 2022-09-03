@@ -43,6 +43,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+            <com.google.android.material.slider.Slider
+                    app:thumbColor="@color/black" 
+                    android:id="@+id/slider_loanSum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:valueFrom="0.0"
+                    android:valueTo="10000.0" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -57,8 +66,7 @@
                     android:id="@+id/select_dwellingType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    />
+                    android:inputType="none" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -82,8 +90,7 @@
                         android:id="@+id/select_loanTerm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="none"
-                        />
+                        android:inputType="none" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -101,8 +108,7 @@
                         android:id="@+id/input_percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        />
+                        android:inputType="numberDecimal" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -113,12 +119,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Вид платежа" />
+
         <com.google.android.material.button.MaterialButtonToggleGroup
                 app:selectionRequired="true"
                 app:singleSelection="true"
                 android:id="@+id/buttonToggle_PayType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
             <Button
                     android:id="@+id/button_difPayType"
                     android:layout_width="0dip"
@@ -126,8 +134,8 @@
                     android:layout_height="wrap_content"
                     android:text="Дифференциированный"
                     style="?attr/materialButtonStyle"
-                    android:textSize="10sp"
-                    />
+                    android:textSize="10sp" />
+
             <Button
                     android:id="@+id/button_anPayType"
                     android:layout_width="0dip"
@@ -135,8 +143,7 @@
                     android:layout_height="wrap_content"
                     android:text="Аннуитетный"
                     style="?attr/materialButtonStyle"
-                    android:textSize="10sp"
-                    />
+                    android:textSize="10sp" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </LinearLayout>
