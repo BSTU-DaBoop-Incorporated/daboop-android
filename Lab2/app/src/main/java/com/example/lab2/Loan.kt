@@ -12,9 +12,9 @@ enum class DwellingType {
 }
 
 data class Loan(
-    val LoanSum: Float,
-    val PayType: PayType,
-    val DwellingType: DwellingType,
-    val LoanTerm: Int,
-    val LoanPercentage: Float,
+    var LoanSum: Float = 0f,
+    var PayType: PayType = com.example.lab2.PayType.Annual,
+    var DwellingType: DwellingType = com.example.lab2.DwellingType.New,
+    var LoanTerm: Int = 10,
+    var LoanPercentage: Float = 26f,
 )

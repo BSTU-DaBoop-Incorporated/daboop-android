@@ -1,93 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".FirstFragment">
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-            android:id="@+id/textview_first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.Material3.HeadlineLarge"
-            android:text="Калькулятор"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/formLayout" />
+    <!-- note: xmlns above only needed if used in original XML -->
+    <!-- original XML here -->
 
-    <LinearLayout
-            android:id="@+id/formLayout"
-            android:orientation="vertical"
+    <data>
+
+        <variable
+                name="viewModel"
+                type="com.example.lab2.AppViewModel" />
+
+        <import type="com.example.lab2.PayType" />
+
+        <import type="com.example.lab2.StringToFloatConverter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:layout_margin="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/button_calculate"
-            app:layout_constraintTop_toBottomOf="@id/textview_first"
-            android:background="#b5d7eb">
+            android:layout_height="match_parent"
+            tools:context=".FirstFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginVertical="5dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_width="match_parent"
+
+        <TextView
+                android:id="@+id/textview_first"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Сумма кредита">
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_loanSum"
-                    android:inputType="numberDecimal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            <com.google.android.material.slider.Slider
-                    app:thumbColor="@color/black" 
-                    android:id="@+id/slider_loanSum"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="0dp"
-                    android:valueFrom="0.0"
-                    android:valueTo="10000.0" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginVertical="5dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:id="@+id/test"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Тип недвижимости">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/select_dwellingType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
+                style="@style/TextAppearance.Material3.HeadlineLarge"
+                android:text="Калькулятор"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/formLayout" />
 
         <LinearLayout
+                android:id="@+id/formLayout"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:background="#b5d7eb"
-                android:orientation="horizontal">
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/button_calculate"
+                app:layout_constraintTop_toBottomOf="@id/textview_first"
+                android:background="#b5d7eb">
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginVertical="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Сумма кредита">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_loanSum"
+                        android:inputType="numberDecimal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={StringToFloatConverter.floatToString(viewModel.loanSum)}" />
+
+                <com.google.android.material.slider.Slider
+                        app:thumbColor="@color/black"
+                        android:id="@+id/slider_loanSum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp"
+                        android:valueFrom="0.0"
+                        android:valueTo="10000.0"
+                        android:stepSize="0.01"
+                        android:value="@={viewModel.loanSum}"
+                        />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                     android:layout_marginVertical="5dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                    android:layout_width="0dip"
-                    android:layout_weight="3"
+                    android:id="@+id/test"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Срок кредита">
+                    android:hint="Тип недвижимости">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/select_loanTerm"
+                        android:id="@+id/select_dwellingType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none" />
@@ -95,66 +92,95 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginVertical="5dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="0dip"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="16dp"
+            <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ставка, %">
+                    android:padding="16dp"
+                    android:background="#b5d7eb"
+                    android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_percent"
-                        android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginVertical="5dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:layout_width="0dip"
+                        android:layout_weight="3"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal" />
+                        android:hint="Срок кредита">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/select_loanTerm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none" />
 
 
-            </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginVertical="5dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:layout_width="0dip"
+                        android:layout_weight="2"
+                        android:layout_marginLeft="16dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Ставка, %">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_percent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Вид платежа" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                    app:selectionRequired="true"
+                    app:singleSelection="true"
+                    android:id="@+id/buttonToggle_PayType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:id="@+id/button_difPayType"
+                        android:layout_width="0dip"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Дифференциированный"
+                        style="?attr/materialButtonStyle"
+                        android:textSize="10sp"
+                        android:onClick="@{() -> viewModel.setPayType(PayType.Differential)}"
+                        android:enabled="@{viewModel.payType == PayType.Annual}" />
+
+                <Button
+                        android:id="@+id/button_anPayType"
+                        android:layout_width="0dip"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Аннуитетный"
+                        style="?attr/materialButtonStyle"
+                        android:textSize="10sp"
+                        android:onClick="@{() -> viewModel.setPayType(PayType.Annual)}"
+                        android:enabled="@{viewModel.payType == PayType.Differential}" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
         </LinearLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.AppCompat.Subhead"
+        <Button
+                android:id="@+id/button_calculate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Вид платежа" />
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-                app:selectionRequired="true"
-                app:singleSelection="true"
-                android:id="@+id/buttonToggle_PayType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <Button
-                    android:id="@+id/button_difPayType"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Дифференциированный"
-                    style="?attr/materialButtonStyle"
-                    android:textSize="10sp" />
-
-            <Button
-                    android:id="@+id/button_anPayType"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Аннуитетный"
-                    style="?attr/materialButtonStyle"
-                    android:textSize="10sp" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    </LinearLayout>
-
-    <Button
-            android:id="@+id/button_calculate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Рассчитать"
-            app:layout_constraintTop_toBottomOf="@id/formLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="Рассчитать"
+                app:layout_constraintTop_toBottomOf="@id/formLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

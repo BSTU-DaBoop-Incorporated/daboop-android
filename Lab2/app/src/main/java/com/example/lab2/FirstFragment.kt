@@ -1,12 +1,16 @@
 package com.example.lab2
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
+import androidx.test.espresso.remote.Converter
 import com.example.lab2.databinding.FragmentFirstBinding
 
 /**
@@ -26,6 +30,10 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        // Obtain the ViewModel component.
+        val userModel: AppViewModel by viewModels()
+        // Assign the component to a property in the binding class.
+        binding.viewModel = userModel
         return binding.root
 
     }
@@ -33,21 +41,28 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        configureButtonTogglePayType()
-        configureButtonCalculate()
-        configureSelectLoanTerm()
-        configureSliderAndInputLoanSum()
+        configureInputLoanSumFilters()
+//        configureButtonTogglePayType()
+//        configureButtonCalculate()
+//        configureSelectLoanTerm()
+//        configureSliderAndInputLoanSum()
+    }
+
+    private fun configureInputLoanSumFilters() {
+        val minMaxLoanSumFilter: InputFilter = InputFilterMinMax(0f, 10000f)
+        val digitsFloatInputFilter: InputFilter = DecimalDigitsInputFilter(5, 2)
+        binding.inputLoanSum.filters = arrayOf(minMaxLoanSumFilter, digitsFloatInputFilter)
     }
 
     private fun configureSliderAndInputLoanSum() {
         binding.inputLoanSum.addTextChangedListener { text ->
             if (!areLoanSumInputAndSliderValuesEqual()) {
-                binding.sliderLoanSum.value = text.toString().toFloat();
+                binding.sliderLoanSum.value = text.toString().toFloat()
             }
         }
         binding.sliderLoanSum.addOnChangeListener { slider, value, fromUser ->
             if (!areLoanSumInputAndSliderValuesEqual()) {
-                binding.inputLoanSum.setText(value.toString());
+                binding.inputLoanSum.setText(value.toString())
             }
         }
     }
