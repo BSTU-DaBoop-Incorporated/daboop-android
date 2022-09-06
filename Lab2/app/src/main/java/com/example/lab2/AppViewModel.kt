@@ -1,22 +1,12 @@
 package com.example.lab2
 
+import android.util.Log
 import androidx.databinding.Bindable
 import androidx.lifecycle.ViewModel
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
 
 open class AppViewModel : ViewModel(), Observable {
-//    private var _loan = Loan()
-////    fun getLoan(): Loan = _loan
-//
-//    @get:Bindable
-//    var loan
-//        get() = _loan
-//        set(value) {
-//            notifyPropertyChanged(BR.loan)
-//            _loan = value
-//        }
-
     @get:Bindable
     var loanSum: Float = 0f
         set(value) {
@@ -31,7 +21,32 @@ open class AppViewModel : ViewModel(), Observable {
         set(value) {
             notifyPropertyChanged(BR.payType)
             field = value
+        }    
+    
+    @get:Bindable
+    var dwellingType: DwellingType = DwellingType.New
+        set(value) {
+            notifyPropertyChanged(BR.dwellingType)
+            Log.d("ViewModel", "dwellingType = $value")
+            field = value
+        }    
+    
+    @get:Bindable
+    var loanTerm: Int = 10
+        set(value) {
+            notifyPropertyChanged(BR.loanTerm)
+            field = value
         }
+       
+    @get:Bindable
+    var loanPercentage: Float = 26f
+        set(value) {
+            notifyPropertyChanged(BR.loanPercentage)
+            field = value
+        }
+    
+    
+    
     private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
     override fun addOnPropertyChangedCallback(
         callback: Observable.OnPropertyChangedCallback

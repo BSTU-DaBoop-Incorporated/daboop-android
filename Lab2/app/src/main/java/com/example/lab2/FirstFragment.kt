@@ -42,10 +42,15 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         configureInputLoanSumFilters()
+        configureSelectDwellingType()
+        configureSelectLoanTerm()
 //        configureButtonTogglePayType()
 //        configureButtonCalculate()
-//        configureSelectLoanTerm()
 //        configureSliderAndInputLoanSum()
+    }
+
+    private fun configureSelectDwellingType() {
+        binding.selectDwellingType.setSimpleItems(dwellingTypeMap.keys.toTypedArray())
     }
 
     private fun configureInputLoanSumFilters() {
@@ -83,14 +88,13 @@ class FirstFragment : Fragment() {
 
     private fun configureSelectLoanTerm() {
         val itemsMap = mapOf("10 лет" to 10, "15 лет" to 15, "20 лет" to 20)
-
         binding.selectLoanTerm.setSimpleItems(itemsMap.keys.toTypedArray())
-        binding.selectLoanTerm.addTextChangedListener { editable ->
-            Log.d(
-                "select_loanTerm",
-                itemsMap[editable.toString()].toString()
-            )
-        }
+//        binding.selectLoanTerm.addTextChangedListener { editable ->
+//            Log.d(
+//                "select_loanTerm",
+//                itemsMap[editable.toString()].toString()
+//            )
+//        }
     }
 
     override fun onDestroyView() {
