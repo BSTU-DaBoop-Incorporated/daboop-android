@@ -32,10 +32,10 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/formLayout" />
+                app:layout_constraintBottom_toTopOf="@id/headline" />
 
         <LinearLayout
-                android:id="@+id/formLayout"
+                android:id="@+id/headline"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:value="@={viewModel.dwellingType}"/>
+                        />
+<!--                android:value="@={viewModel.dwellingType}"-->
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -130,7 +131,9 @@
                             android:id="@+id/input_percent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
+                            android:inputType="numberDecimal"
+                            android:text="@={StringToFloatConverter.floatToString(viewModel.loanPercentage)}"
+                            />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -156,9 +159,9 @@
                         android:layout_height="wrap_content"
                         android:text="Дифференциированный"
                         style="?attr/materialButtonStyle"
-                        android:textSize="10sp"
-                        android:onClick="@{() -> viewModel.setPayType(PayType.Differential)}"
-                        android:enabled="@{viewModel.payType == PayType.Annual}" />
+                        android:textSize="10sp" />
+<!--                        android:onClick="@{() -> viewModel.setPayType(PayType.Differential)}"-->
+<!--                        android:enabled="@{viewModel.payType == PayType.Annual}" />-->
 
                 <Button
                         android:id="@+id/button_anPayType"
@@ -167,9 +170,10 @@
                         android:layout_height="wrap_content"
                         android:text="Аннуитетный"
                         style="?attr/materialButtonStyle"
-                        android:textSize="10sp"
-                        android:onClick="@{() -> viewModel.setPayType(PayType.Annual)}"
-                        android:enabled="@{viewModel.payType == PayType.Differential}" />
+                        android:backgroundTint="#FFA500"
+                        android:textSize="10sp" />
+<!--                        android:onClick="@{() -> viewModel.setPayType(PayType.Annual)}"-->
+<!--                        android:enabled="@{viewModel.payType == PayType.Differential}" />-->
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
         </LinearLayout>
@@ -179,9 +183,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Рассчитать"
-                app:layout_constraintTop_toBottomOf="@id/formLayout"
+                app:layout_constraintTop_toBottomOf="@id/headline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

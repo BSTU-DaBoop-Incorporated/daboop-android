@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.lab2.databinding.FragmentSecondBinding
 
@@ -25,6 +26,8 @@ class SecondFragment : Fragment() {
     ): View? {
 
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        val viewModel: AppViewModel by activityViewModels()
+        binding.viewModel = viewModel
         return binding.root
 
     }

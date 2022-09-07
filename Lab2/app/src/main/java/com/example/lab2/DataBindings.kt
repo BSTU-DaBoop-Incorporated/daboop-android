@@ -34,3 +34,8 @@ fun convertDwellingTypeToString(dwellingType: DwellingType): String? {
 fun convertStringToDwellingType(dwellingType: String): DwellingType {
     return dwellingTypeMap[dwellingType] ?: DwellingType.New
 }
+
+@BindingConversion
+fun floatToStringConversion(value: Float): String {
+    return value.toFloat().toString()
+}

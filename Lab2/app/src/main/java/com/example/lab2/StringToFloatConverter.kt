@@ -12,6 +12,6 @@ object StringToFloatConverter {
 
     @JvmStatic
     public fun floatToString(value: Float): String {
-        return value.toString()
+        return  String.format("%.2f", value);
     }
 }
