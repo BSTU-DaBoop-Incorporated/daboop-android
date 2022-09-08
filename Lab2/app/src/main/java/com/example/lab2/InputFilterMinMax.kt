@@ -2,6 +2,8 @@ package com.example.lab2
 
 import android.text.InputFilter
 import android.text.Spanned
+import java.text.NumberFormat
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -28,9 +30,12 @@ class InputFilterMinMax : InputFilter {
         dstart: Int,
         dend: Int
     ): CharSequence? {
-        
 
-        val input = (dest.replaceRange(dstart, dend, source)).toString().toFloatOrNull() ?: 0f
+        val current: Locale = Locale.getDefault()
+        val numberFormat = NumberFormat.getNumberInstance(current)
+        numberFormat.maximumFractionDigits = 1
+        val resultingValue = (dest.replaceRange(dstart, dend, source)).toString()
+        val input = numberFormat.parse(resultingValue)?.toFloat() ?: 0f
         if (input in min..max) {
             return null 
         }
@@ -56,6 +61,6 @@ class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
 
     init {
         mPattern =
-            Pattern.compile("[0-9]{0,$digitsBeforeZero}+((\\.[0-9]{0,$digitsAfterZero})?)||(\\.)?")
+            Pattern.compile("[0-9]{0,$digitsBeforeZero}+((([.,])[0-9]{0,$digitsAfterZero})?)||(\\.)?")
     }
 }

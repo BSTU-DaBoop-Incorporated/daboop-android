@@ -57,6 +57,8 @@ class FirstFragment : Fragment() {
     private fun configureSelectDwellingType() {
         binding.selectDwellingType.setText(reverseDwellingTypeMap[binding.viewModel?.dwellingType], false)
         binding.selectDwellingType.setSimpleItems(dwellingTypeMap.keys.toTypedArray())
+        binding.selectDwellingType.freezesText = false
+//        binding.selectDwellingType.filters = arrayOf()
         binding.selectDwellingType.addTextChangedListener {
             binding.viewModel?.dwellingType = dwellingTypeMap[it.toString()] ?: DwellingType.New
         }
@@ -95,6 +97,7 @@ class FirstFragment : Fragment() {
         val itemsMapReversed = itemsMap.entries.associate { (k, v) -> v to k }
         binding.selectLoanTerm.setText(itemsMapReversed[binding.viewModel?.loanTerm])
         binding.selectLoanTerm.setSimpleItems(itemsMap.keys.toTypedArray())
+        binding.selectLoanTerm.freezesText = false
         binding.selectLoanTerm.addTextChangedListener {
             binding.viewModel?.loanTerm = itemsMap[it.toString()] ?: 10
         }

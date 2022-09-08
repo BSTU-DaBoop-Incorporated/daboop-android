@@ -1,11 +1,13 @@
 package com.example.lab2
 
-import android.widget.TextView
+import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.databinding.BindingConversion
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.google.android.material.slider.Slider
+import java.text.NumberFormat
+import java.util.*
 
 
 @InverseBindingAdapter(attribute = "android:value")
@@ -37,5 +39,10 @@ fun convertStringToDwellingType(dwellingType: String): DwellingType {
 
 @BindingConversion
 fun floatToStringConversion(value: Float): String {
-    return value.toFloat().toString()
+    return StringToFloatConverter.floatToString(value)
+}
+
+@BindingConversion
+fun booleanToVisibility(value: Boolean): Int {
+    return if (value) View.VISIBLE else View.GONE
 }

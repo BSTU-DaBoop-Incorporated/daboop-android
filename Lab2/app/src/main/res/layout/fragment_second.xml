@@ -7,6 +7,7 @@
                 name="viewModel"
                 type="com.example.lab2.AppViewModel" />
         <import type="com.example.lab2.StringToFloatConverter" />
+        <import type="com.example.lab2.PayType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +58,7 @@
                         style="@style/TextAppearance.AppCompat.Large"
                         android:padding="4dp"
                         android:layout_column="1"
-                        android:text="@{viewModel.totalPay}" />
+                        android:text="@{StringToFloatConverter.floatToStringBeautified(viewModel.totalPay)}" />
                 <TextView
                         style="@style/TextAppearance.AppCompat.Large"
                         android:padding="4dp"
@@ -67,7 +68,7 @@
                         style="@style/TextAppearance.AppCompat.Large"
                         android:padding="4dp"
                         android:layout_column="1"
-                        android:text="@{viewModel.overPay}" />                
+                        android:text="@{StringToFloatConverter.floatToStringBeautified(viewModel.overPay)}" />                
                 <TextView
                         style="@style/TextAppearance.AppCompat.Large"
                         android:padding="4dp"
@@ -77,17 +78,39 @@
                         style="@style/TextAppearance.AppCompat.Large"
                         android:padding="4dp"
                         android:layout_column="1"
-                        android:text="@{viewModel.overPayPercentage}" />
+                        android:text="@{StringToFloatConverter.floatToStringBeautified(viewModel.overPayPercentage)  + '%'}" />
                 <TextView
                         style="@style/TextAppearance.AppCompat.Large"
                         android:padding="4dp"
                         android:layout_column="0"
                         android:text="Платеж в месяц" />
-                <TextView
+                <LinearLayout
                         style="@style/TextAppearance.AppCompat.Large"
                         android:padding="4dp"
                         android:layout_column="1"
-                        android:text="@{viewModel.monthlyPay}" />
+                        >
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            style="@style/TextAppearance.AppCompat.Large"
+                            android:text="@{StringToFloatConverter.floatToStringBeautified(viewModel.monthlyPay)}" />
+                    <TextView
+                            android:visibility="@{viewModel.payType == PayType.Differential}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            style="@style/TextAppearance.AppCompat.Large"
+
+                            android:text="->" />
+                    <TextView
+                            android:visibility="@{viewModel.payType == PayType.Differential}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            style="@style/TextAppearance.AppCompat.Large"
+                            android:text="@{StringToFloatConverter.floatToStringBeautified(viewModel.lastMonthlyPay)}" />
+                </LinearLayout>
                 <!--                 android:text="@{StringToFloatConverter.floatToString(viewModel.totalPay)}"
 -->
             </GridLayout>

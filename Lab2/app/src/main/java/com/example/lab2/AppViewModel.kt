@@ -18,7 +18,7 @@ open class AppViewModel : ViewModel(), Observable {
         }
 
     @get:Bindable
-    var payType: PayType = PayType.Annual
+    var payType: PayType = PayType.Differential
         set(value) {
             notifyPropertyChanged(BR.payType)
             field = value
@@ -50,7 +50,7 @@ open class AppViewModel : ViewModel(), Observable {
     @get:Bindable
     var totalPercentage: Float = 0f
         set(value) {
-            notifyPropertyChanged(BR.overPay)
+            notifyPropertyChanged(BR.totalPercentage)
             field = value
         }
 
@@ -73,6 +73,12 @@ open class AppViewModel : ViewModel(), Observable {
     var monthlyPay: Float = 0f
         set(value) {
             notifyPropertyChanged(BR.monthlyPay)
+            field = value
+        }    
+    @get:Bindable
+    var lastMonthlyPay: Float = 0f
+        set(value) {
+            notifyPropertyChanged(BR.lastMonthlyPay)
             field = value
         }
     
@@ -107,6 +113,36 @@ open class AppViewModel : ViewModel(), Observable {
 
 
     fun calculate() {
+        if(payType == PayType.Annual) {
+            calculateAnnualLoan()
+            return
+        }
+        
+        calculateDifferentialLoan()
+    }
+
+    private fun calculateDifferentialLoan() {
+        val percent = loanPercentage / 100
+        val paymentsPerYear = 12
+        val periods = loanTerm*paymentsPerYear;
+        data class LoanStatsEntry (val period: Int, val monthlyPay: Float, val leftSum: Float )
+        val chart = mutableListOf<LoanStatsEntry>()
+        
+        for(i in 1..periods) {
+            val prevLeftSum = if (i == 1) loanSum else chart[i-2].leftSum
+            val monthlyPay = loanSum/periods + prevLeftSum * percent/paymentsPerYear
+            val newLeftSum = prevLeftSum - prevLeftSum/paymentsPerYear
+            val entry = LoanStatsEntry(i, monthlyPay, newLeftSum)
+            chart.add(entry)    
+        }
+        totalPay = chart.fold(0f) { current, value -> current + value.monthlyPay }
+        overPay = totalPay - loanSum
+        overPayPercentage = totalPay / loanSum * 100
+        lastMonthlyPay = chart[periods-1].monthlyPay
+        monthlyPay = chart[1].monthlyPay
+        
+    }
+    private fun calculateAnnualLoan() {
         val percent = loanPercentage / 100
         val paymentsPerYear = 12
         monthlyPay =
@@ -115,8 +151,7 @@ open class AppViewModel : ViewModel(), Observable {
             ) - 1)
         totalPay = monthlyPay * loanTerm * paymentsPerYear
         overPay = totalPay - loanSum
-        overPayPercentage = overPay / loanSum * 100
-//        monthlyPay = totalPay / (loanTerm * paymentsPerYear)
+        overPayPercentage = totalPay / loanSum * 100
     }
 
 }
