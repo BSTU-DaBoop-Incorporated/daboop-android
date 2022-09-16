@@ -2,21 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         tools:context=".SecondActivity">
     <data>
         <variable
                 name="viewModel"
                 type="com.example.lab3.GameViewModel" />
-        <variable
-                name="activity"
-                type="com.example.lab3.BaseFormActivity" />
     </data>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+        
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -40,6 +36,13 @@
                 android:divider="@drawable/spacing_divider">
 
 
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.game.title}"
+                    android:textSize="30sp"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"/>
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_title"
                     android:layout_width="match_parent"
@@ -75,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:text="Next"
                     android:layout_gravity="center"
-                    android:onClick="@{() -> activity.next()}"/>
+                    android:onClick="next"/>
 
         </LinearLayout>
 

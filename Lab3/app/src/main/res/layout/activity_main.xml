@@ -10,7 +10,7 @@
                 type="com.example.lab3.GameViewModel" />
         <variable
                 name="activity"
-                type="com.example.lab3.BaseFormActivity" />
+                type="com.example.lab3.MainActivity" />
     </data>
     <LinearLayout
             android:orientation="vertical"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="Next"
                     android:layout_gravity="center"
-                    android:onClick="@{() -> activity.next()}"/>
+                    android:onClick="next"/>
         </LinearLayout>
 
     </LinearLayout>
