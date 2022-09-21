@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.serialization.decodeFromString
@@ -24,8 +25,6 @@ abstract class BaseFormActivity : AppCompatActivity() {
         Log.d("BaseFormActivity", "onRestoreInstanceState: $game")
         if (game == null) return
         outState.putSerializable("game", game)
-        
-        saveStateInFile()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -122,15 +121,18 @@ abstract class BaseFormActivity : AppCompatActivity() {
         return file.exists()
     }
     
-    protected fun saveStateInFile() {
+    public fun saveStateInFile() {
         val fileName = "game.json"
         
         val gameDto = GameDto.fromGame(game!!)
         val jsonString = Json.encodeToString(gameDto)
         create(this, fileName, jsonString)
+        
+        Toast.makeText(this, "Game saved", Toast.LENGTH_SHORT).show()
+        
     }
-    
-    protected fun readStateFromFile() {
+
+    public fun readStateFromFile() {
         val fileName = "game.json"
         val jsonString = read(this, fileName)
         if (jsonString != null) {

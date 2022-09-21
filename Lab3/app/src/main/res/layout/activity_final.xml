@@ -14,7 +14,7 @@
                 name="layoutViewModel"
                 type="com.example.lab3.LayoutViewModel" />
     </data>
-
+    
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -24,113 +24,119 @@
                 layout="@layout/layout_appbar"
                 app:viewModel="@{layoutViewModel}" />
 
-        <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
-        <GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:divider="@drawable/spacing_divider"
-                android:columnCount="2">
-
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
+            <GridLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Название" />
+                    android:layout_gravity="center"
+                    android:divider="@drawable/spacing_divider"
+                    android:columnCount="2">
 
-            <TextView
-                    android:padding="20dp"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.game.title}" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Название" />
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Жанр" />
+                <TextView
+                        android:padding="20dp"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.game.title}" />
 
-            <TextView
-                    android:padding="20dp"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.game.genre}" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Жанр" />
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Разработчик" />
+                <TextView
+                        android:padding="20dp"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.game.genre}" />
 
-            <TextView
-                    android:padding="20dp"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.game.developer}" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Разработчик" />
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Издатель" />
+                <TextView
+                        android:padding="20dp"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.game.developer}" />
 
-            <TextView
-                    android:padding="20dp"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.game.publisher}" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Издатель" />
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Рейтинг" />
-            
-            <TextView
-                    android:padding="20dp"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.game.rating.toString()}" />
+                <TextView
+                        android:padding="20dp"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.game.publisher}" />
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Год выхода" />
-            <TextView
-                    android:padding="20dp"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.game.releaseYear.toString()}" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Рейтинг" />
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="В наличии" />
-            <CheckBox
-                    android:padding="20dp"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:checked="@{viewModel.game.isInStock }" />
-        </GridLayout>
+                <TextView
+                        android:padding="20dp"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.game.rating.toString()}" />
 
-        <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Год выхода" />
 
+                <TextView
+                        android:padding="20dp"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.game.releaseYear.toString()}" />
+
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="В наличии" />
+
+                <CheckBox
+                        android:padding="20dp"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:checked="@{viewModel.game.isInStock }" />
+                
+                
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Сохранить"
+
+                        android:onClick="@{() -> layoutViewModel.baseFormActivity.saveStateInFile()}" />
+            </GridLayout>
+
+        </ScrollView>
     </LinearLayout>
 </layout>

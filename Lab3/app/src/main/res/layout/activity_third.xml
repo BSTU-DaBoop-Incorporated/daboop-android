@@ -15,65 +15,72 @@
                 type="com.example.lab3.LayoutViewModel" />
     </data>
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <include layout="@layout/layout_appbar"
-                app:viewModel="@{layoutViewModel}"
-                />
-
+    <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
                 android:orientation="vertical"
-                android:showDividers="middle"
-                android:divider="@drawable/spacing_divider">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+            <include layout="@layout/layout_appbar"
+                    app:viewModel="@{layoutViewModel}"
+                    />
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Рейтинг" />
-
-            <NumberPicker
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:value="@={viewModel.game.rating}"
-                    app:minValue="@{0}"
-                    app:maxValue="@{10}" />
+                    android:padding="20dp"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    android:divider="@drawable/spacing_divider">
 
 
-            <TextView
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Год выхода" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Рейтинг" />
 
-            <NumberPicker
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:value="@={viewModel.game.releaseYear}"
-                    app:minValue="@{1900}"
-                    app:maxValue="@{2022}" />
+                <NumberPicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:value="@={viewModel.game.rating}"
+                        app:minValue="@{0}"
+                        app:maxValue="@{10}" />
 
 
-            <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Год выхода" />
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Next"
-                    android:layout_gravity="center"
-                    android:onClick="next" />
+                <NumberPicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:value="@={viewModel.game.releaseYear}"
+                        app:minValue="@{1900}"
+                        app:maxValue="@{2022}" />
+
+
+                <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next"
+                        android:layout_gravity="center"
+                        android:onClick="next" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 </layout>
