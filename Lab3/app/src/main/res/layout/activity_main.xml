@@ -9,26 +9,16 @@
                 name="viewModel"
                 type="com.example.lab3.GameViewModel" />
         <variable
-                name="activity"
-                type="com.example.lab3.MainActivity" />
+                name="layoutViewModel"
+                type="com.example.lab3.LayoutViewModel" />
     </data>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:theme="@style/Theme.Lab3.AppBarOverlay">
-
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:background="?attr/colorPrimary"
-                    app:popupTheme="@style/Theme.Lab3.PopupOverlay"
-                    android:layout_height="?attr/actionBarSize" />
-
-        </com.google.android.material.appbar.AppBarLayout>
+        <include layout="@layout/layout_appbar" 
+                app:viewModel="@{layoutViewModel}" 
+        />
         
         <LinearLayout
                 android:layout_width="match_parent"
@@ -37,7 +27,6 @@
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:divider="@drawable/spacing_divider">
-            
             
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_title"
@@ -48,7 +37,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={viewModel.game.title}"/>
+                        android:text="@={viewModel.game.title}" />
 
             </com.google.android.material.textfield.TextInputLayout>
             
@@ -65,6 +54,13 @@
                         android:text="@={viewModel.game.genre}"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+            
+            <com.google.android.material.checkbox.MaterialCheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="В наличии"
+                    android:checked="@={viewModel.game.isInStock}"
+                    />
 
             <View android:layout_width="wrap_content"
                     android:layout_height="0dp"

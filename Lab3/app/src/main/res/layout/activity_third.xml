@@ -2,8 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".SecondActivity">
+        tools:context=".ThirdActivity">
+
     <data>
+
         <variable
                 name="viewModel"
                 type="com.example.lab3.GameViewModel" />
@@ -12,14 +14,15 @@
                 name="layoutViewModel"
                 type="com.example.lab3.LayoutViewModel" />
     </data>
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <include layout="@layout/layout_appbar"
                 app:viewModel="@{layoutViewModel}"
                 />
-
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -28,43 +31,47 @@
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:divider="@drawable/spacing_divider">
-            
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_title"
+
+
+            <TextView
+                    style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Разработчик">
+                    android:text="Рейтинг" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@={viewModel.game.developer}"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_publisher"
+            <NumberPicker
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Издатель">
+                    android:value="@={viewModel.game.rating}"
+                    app:minValue="@{0}"
+                    app:maxValue="@{10}" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@={viewModel.game.publisher}"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Год выхода" />
 
-            <View android:layout_width="wrap_content"
+            <NumberPicker
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:value="@={viewModel.game.releaseYear}"
+                    app:minValue="@{1900}"
+                    app:maxValue="@{2022}" />
+
+
+            <View
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
+
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Next"
                     android:layout_gravity="center"
-                    android:onClick="next"/>
+                    android:onClick="next" />
 
         </LinearLayout>
 

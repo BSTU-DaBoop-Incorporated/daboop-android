@@ -1,22 +1,17 @@
 package com.example.lab3
 
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.example.lab3.databinding.ActivityMainBinding
-import kotlin.math.log
+import com.example.lab3.databinding.ActivityFinalBinding
+import com.example.lab3.databinding.ActivitySecondBinding
 
-class MainActivity : BaseFormActivity(){
-    private lateinit var binding: ActivityMainBinding
-    
+class FinalActivity : BaseFormActivity() {
+    private lateinit var binding: ActivityFinalBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        readStateFromFile()
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_final)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.layoutViewModel = layoutViewModel
@@ -26,5 +21,4 @@ class MainActivity : BaseFormActivity(){
     fun next(_view: View) {
         super.next()
     }
-    
 }
