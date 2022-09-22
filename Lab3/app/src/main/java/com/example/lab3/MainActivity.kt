@@ -3,11 +3,8 @@ package com.example.lab3
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.lab3.databinding.ActivityMainBinding
-import kotlin.math.log
 
 class MainActivity : BaseFormActivity(){
     private lateinit var binding: ActivityMainBinding

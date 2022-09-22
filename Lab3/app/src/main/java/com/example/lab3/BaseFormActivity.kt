@@ -1,7 +1,6 @@
 package com.example.lab3
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.io.*
 
 abstract class BaseFormActivity : AppCompatActivity() {
     lateinit var viewModel: GameViewModel
@@ -20,6 +18,20 @@ abstract class BaseFormActivity : AppCompatActivity() {
 
     val game: Game?
         get() = viewModel.game.get()
+
+    companion object {
+        @JvmStatic
+        val stepClassMapping = mapOf(
+            0 to MainActivity::class.java,
+            1 to SecondActivity::class.java,
+            2 to ThirdActivity::class.java,
+            3 to FinalActivity::class.java,
+        )
+        @JvmStatic
+        val reverseStepClassMapping = stepClassMapping.entries.associate { (k, v) -> v to k }
+
+    }
+ 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -86,60 +98,24 @@ abstract class BaseFormActivity : AppCompatActivity() {
         return reverseStepClassMapping[this::class.java]
             ?: throw Error("No such step exists")
     }
-
-
-
-
-    protected fun read(context: Context, fileName: String): String? {
-        return try {
-            val fis: FileInputStream = FileInputStream(File(fileName))
-            val isr = InputStreamReader(fis)
-            val bufferedReader = BufferedReader(isr)
-            val sb = StringBuilder()
-            var line: String?
-            while (bufferedReader.readLine().also { line = it } != null) {
-                sb.append(line)
-            }
-            sb.toString()
-        } catch (fileNotFound: FileNotFoundException) {
-            null
-        } catch (ioException: IOException) {
-            null
-        }
-    }
-
-    protected fun create(context: Context, fileName: String, jsonString: String?) {
-        
-            val fos: FileOutputStream = FileOutputStream(File(fileName))
-            if (jsonString != null) {
-                fos.write(jsonString.toByteArray())
-            }
-            fos.close()
-    }
-
-    protected fun isFilePresent(context: Context, fileName: String): Boolean {
-        val path: String = "${context.filesDir.absolutePath}/$fileName"
-        val file = File(path)
-        return file.exists()
-    }
     
-    public fun saveStateInFile() {
+    fun saveStateInFile() {
         val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
         val fileName = "$downloadsFolder/game.json"
 
         
         val gameDto = GameDto.fromGame(game!!)
         val jsonString = Json.encodeToString(gameDto)
-        create(this, fileName, jsonString)
+        FileHelpers.create(fileName, jsonString)
         
         Toast.makeText(this, "Game saved", Toast.LENGTH_SHORT).show()
         
     }
 
-    public fun readStateFromFile() {
+    fun readStateFromFile() {
         val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
         val fileName = "$downloadsFolder/game.json"
-        val jsonString = read(this, fileName)
+        val jsonString = FileHelpers.read(fileName)
         if (jsonString != null) {
             try {
 

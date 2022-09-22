@@ -2,11 +2,7 @@ package com.example.lab3
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableFloat
-import androidx.databinding.ObservableInt
-import androidx.lifecycle.MutableLiveData
 import java.io.Serializable
-import java.util.*
 
 
 class Game : Serializable {
@@ -46,17 +42,16 @@ data class GameDto (
 
     companion object {
         @JvmStatic
-        fun fromGame(game: Game) :GameDto {
-            val gameDto = GameDto(
+        fun fromGame(game: Game): GameDto {
+            return GameDto(
                 game.title.get()!!,
                 game.releaseYear.get()!!,
                 game.genre.get()!!,
                 game.rating.get()!!,
                 game.publisher.get()!!,
                 game.developer.get()!!,
-                game.isInStock.get()!!
+                game.isInStock.get()
             )
-            return gameDto
         }
     }
 }
