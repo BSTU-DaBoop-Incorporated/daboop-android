@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -63,6 +64,7 @@ abstract class BaseFormActivity : AppCompatActivity() {
     private val reverseStepClassMapping = stepClassMapping.entries.associate { (k, v) -> v to k }
     protected fun sendGameIntent(game: Game?, activity: Class<out Activity>) {
         val intent = Intent(this, activity)
+        intent.type = "game intent"
         intent.putExtra("game", game)
         startActivity(intent)
     }
@@ -90,7 +92,7 @@ abstract class BaseFormActivity : AppCompatActivity() {
 
     protected fun read(context: Context, fileName: String): String? {
         return try {
-            val fis: FileInputStream = context.openFileInput(fileName)
+            val fis: FileInputStream = FileInputStream(File(fileName))
             val isr = InputStreamReader(fis)
             val bufferedReader = BufferedReader(isr)
             val sb = StringBuilder()
@@ -108,7 +110,7 @@ abstract class BaseFormActivity : AppCompatActivity() {
 
     protected fun create(context: Context, fileName: String, jsonString: String?) {
         
-            val fos: FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
+            val fos: FileOutputStream = FileOutputStream(File(fileName))
             if (jsonString != null) {
                 fos.write(jsonString.toByteArray())
             }
@@ -122,7 +124,9 @@ abstract class BaseFormActivity : AppCompatActivity() {
     }
     
     public fun saveStateInFile() {
-        val fileName = "game.json"
+        val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+        val fileName = "$downloadsFolder/game.json"
+
         
         val gameDto = GameDto.fromGame(game!!)
         val jsonString = Json.encodeToString(gameDto)
@@ -133,7 +137,8 @@ abstract class BaseFormActivity : AppCompatActivity() {
     }
 
     public fun readStateFromFile() {
-        val fileName = "game.json"
+        val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+        val fileName = "$downloadsFolder/game.json"
         val jsonString = read(this, fileName)
         if (jsonString != null) {
             try {
