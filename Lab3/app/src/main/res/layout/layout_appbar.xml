@@ -61,6 +61,16 @@
                             android:onClick="@{() -> viewModel.baseFormActivity.goToStep(3)}"
                             android:background="@{viewModel.getCurrentStepRectColor(3)}"
                             />
+                    
+                    <androidx.appcompat.widget.AppCompatButton
+                            style="@style/Widget.Theme.Lab3.AppbarRectangle"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/black"
+                            android:id="@+id/step_5_appbar_rectangle"
+                            android:layout_marginStart="10dp"
+                            android:text="List"
+                            android:onClick="@{() -> viewModel.baseFormActivity.goToList()"
+                            />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 

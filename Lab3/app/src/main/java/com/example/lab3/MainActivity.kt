@@ -13,10 +13,11 @@ class MainActivity : BaseFormActivity(){
         super.onCreate(savedInstanceState)
 
         
-        Log.i("MainActivity", "Save Path!!:" + this.filesDir.absolutePath)
-        if (intent?.type?.equals("game intent") != true) {
-            readStateFromFile()
-        }
+//        Log.i("MainActivity", "Save Path!!:" + this.filesDir.absolutePath)
+//        if (intent?.type?.equals("game intent") != true) {
+//            readStateFromFile()
+//        }
+        
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

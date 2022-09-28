@@ -134,7 +134,7 @@
                         android:layout_height="wrap_content"
                         android:text="Сохранить"
 
-                        android:onClick="@{() -> layoutViewModel.baseFormActivity.saveStateInFile()}" />
+                        android:onClick="@{() -> layoutViewModel.baseFormActivity.saveButtonClick()}" />
             </GridLayout>
 
         </ScrollView>
