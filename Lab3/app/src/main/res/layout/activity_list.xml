@@ -21,17 +21,67 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
-            android:layout_gravity="center"
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/games_tableLayout"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        android:fillViewport="true">
-        <TableLayout
-                android:layout_gravity="center"
-                android:id="@+id/games_tableLayout"
+            android:layout_height="0dp"
+            >
+<!--        <TableLayout-->
+<!--                android:layout_gravity="center"-->
+<!--                android:id="@+id/games_tableLayout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
+<!--            -->
+<!--        </TableLayout>-->
+    </androidx.recyclerview.widget.RecyclerView>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="Add new"
+                android:onClick="addGame"
+                android:layout_gravity="center"/>
+        
+        <TextView
+                style="@style/TextAppearance.AppCompat.Display1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="test@mail.com"
+                android:textAlignment="center"
+                android:onClick="sendEmailIntent"
+                />
+
+        <TextView
+                style="@style/TextAppearance.AppCompat.Display1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="+88005553535"
+                android:textAlignment="center"
+                android:onClick="sendCallIntent"
+                />
+
+
+        <TextView
+                style="@style/TextAppearance.AppCompat.Display1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Watch video"
+                android:textAlignment="center"
+                android:onClick="openSocialNetworkIntent"
+                />
+        
+        <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@color/gray_400"
+                android:onClick="openPhotoIntent"/>
             
-        </TableLayout>
-    </ScrollView>
+    </LinearLayout>   
+    
 </LinearLayout>

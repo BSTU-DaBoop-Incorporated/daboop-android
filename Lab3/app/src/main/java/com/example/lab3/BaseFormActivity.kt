@@ -18,7 +18,8 @@ import java.util.UUID
 abstract class BaseFormActivity : AppCompatActivity() {
     lateinit var viewModel: GameViewModel
     lateinit var layoutViewModel: LayoutViewModel
-
+    val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+    val fileName = "$downloadsFolder/games.json"
     val game: Game?
         get() = viewModel.game.get()
 
@@ -126,9 +127,9 @@ abstract class BaseFormActivity : AppCompatActivity() {
         goToList()
     }
     fun saveStateInFile() {
-        val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
-        val fileName = "$downloadsFolder/game.json"
+//        val fileName = "$downloadsFolder/game.json"
 
+        
         if (game?.id?.get()  != null) {
             viewModel.games.value?.removeAll { it.id.get() == game!!.id.get() }
         }
@@ -147,7 +148,7 @@ abstract class BaseFormActivity : AppCompatActivity() {
 
     fun readStateFromFile() {
         val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
-        val fileName = "$downloadsFolder/game.json"
+//        val fileName = "$downloadsFolder/game.json"
         val jsonString = FileHelpers.read(fileName)
         if (jsonString != null) {
             try {

@@ -26,7 +26,10 @@ object FileHelpers {
 
     @JvmStatic
     fun create(fileName: String, jsonString: String?) {
-        val fos = FileOutputStream(File(fileName))
+        val file = File(fileName)
+        file.createNewFile()
+        
+        val fos = FileOutputStream(file)
         if (jsonString != null) {
             fos.write(jsonString.toByteArray())
         }
