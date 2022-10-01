@@ -2,14 +2,12 @@ package com.example.lab3
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableFloat
-import androidx.databinding.ObservableInt
-import androidx.lifecycle.MutableLiveData
 import java.io.Serializable
 import java.util.*
 
 
 class Game : Serializable {
+    var id = ObservableField<String>()
     var title = ObservableField<String>("")
     var releaseYear = ObservableField(2022)
     var genre = ObservableField("")
@@ -21,19 +19,22 @@ class Game : Serializable {
 }
 @kotlinx.serialization.Serializable
 data class GameDto (
-    var title: String,
-    var releaseYear: Int,
-    var genre: String,
-    var rating: Int,
-    var publisher: String,
-    val developer: String,
-    val isInStock: Boolean
+    var id : String,
+    var title: String?,
+    var releaseYear: Int?,
+    var genre: String?,
+    var rating: Int?,
+    var publisher: String?,
+    val developer: String?,
+    val isInStock: Boolean = false
+
     
   
 ) {
 
     fun toGame(): Game {
         val game = Game()
+        game.id.set(id)
         game.title.set(title)
         game.releaseYear.set(releaseYear)
         game.genre.set(genre)
@@ -46,17 +47,17 @@ data class GameDto (
 
     companion object {
         @JvmStatic
-        fun fromGame(game: Game) :GameDto {
-            val gameDto = GameDto(
-                game.title.get()!!,
-                game.releaseYear.get()!!,
-                game.genre.get()!!,
-                game.rating.get()!!,
-                game.publisher.get()!!,
-                game.developer.get()!!,
-                game.isInStock.get()!!
+        fun fromGame(game: Game): GameDto {
+            return GameDto(
+                game.id.get() ?: UUID.randomUUID().toString(),
+                game.title.get(),
+                game.releaseYear.get(),
+                game.genre.get(),
+                game.rating.get(),
+                game.publisher.get(),
+                game.developer.get(),
+                game.isInStock.get()
             )
-            return gameDto
         }
     }
 }

@@ -3,11 +3,8 @@ package com.example.lab3
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.lab3.databinding.ActivityMainBinding
-import kotlin.math.log
 
 class MainActivity : BaseFormActivity(){
     private lateinit var binding: ActivityMainBinding
@@ -16,10 +13,11 @@ class MainActivity : BaseFormActivity(){
         super.onCreate(savedInstanceState)
 
         
-        Log.i("MainActivity", "Save Path!!:" + this.filesDir.absolutePath)
-        if (intent?.type?.equals("game intent") != true) {
-            readStateFromFile()
-        }
+//        Log.i("MainActivity", "Save Path!!:" + this.filesDir.absolutePath)
+//        if (intent?.type?.equals("game intent") != true) {
+//            readStateFromFile()
+//        }
+        
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

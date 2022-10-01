@@ -6,5 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
-    var game = ObservableField<Game>(Game())
+    var game = ObservableField(Game())
+    var games = MutableLiveData<MutableList<Game>>(mutableListOf())
 }

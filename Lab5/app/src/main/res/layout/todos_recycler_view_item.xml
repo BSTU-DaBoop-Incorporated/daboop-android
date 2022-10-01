@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/frame_layout"        
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/border_shadow"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+        <CheckBox
+                android:id="@+id/todo_is_done_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+
+        <TextView
+                android:id="@+id/todo_task"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sampleTask" />
+
+        <TextView
+                android:id="@+id/todo_difficulty"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_marginStart="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-1" />
+    </LinearLayout>
+</FrameLayout>
