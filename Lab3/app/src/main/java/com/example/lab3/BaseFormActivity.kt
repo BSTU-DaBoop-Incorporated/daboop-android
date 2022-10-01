@@ -147,7 +147,7 @@ abstract class BaseFormActivity : AppCompatActivity() {
     }
 
     fun readStateFromFile() {
-        val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+//        val downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
 //        val fileName = "$downloadsFolder/game.json"
         val jsonString = FileHelpers.read(fileName)
         if (jsonString != null) {

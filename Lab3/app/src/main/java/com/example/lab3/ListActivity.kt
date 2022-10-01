@@ -120,7 +120,6 @@ class ListActivity : BaseFormActivity() {
 
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            // There are no request codes
             val data: Intent? = result.data
             cameraIntentResult(data)
         }
@@ -129,7 +128,6 @@ class ListActivity : BaseFormActivity() {
     fun cameraIntentResult(data: Intent?) {
             val photo = data?.extras!!["data"] as Bitmap?
             binding.imageView.setImageBitmap(photo)
-//        super.onActivityResult(requestCode, resultCode, data)
     }
 
 

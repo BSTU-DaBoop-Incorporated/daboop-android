@@ -8,6 +8,8 @@ interface TodoInterface {
     
     fun createContextMenu(todo: Todo, contextMenu: ContextMenu,
                           view: View,
-                          contextMenuInfo: ContextMenu.ContextMenuInfo?)
+                          contextMenuInfo: ContextMenu.ContextMenuInfo?,
+                            ) 
+    
     
 }

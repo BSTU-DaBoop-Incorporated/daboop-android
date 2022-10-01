@@ -24,11 +24,21 @@ class TodosViewModel :ViewModel(){
         val index = todos.indexOfFirst { it.id == todo.id }
         if(index != -1) {
             todos[index] = todo
-        } else {
-            todos.plus(todo)
+            allTodos.value = todos
+            return
         }
-        allTodos.value = todos
+        
+        allTodos.value = todos.plus(todo)
+
 
     }
-    
+
+    fun deleteTodo (todo: Todo) {
+        val todos = allTodos.value?.toMutableList() ?: mutableListOf()
+        val index = todos.indexOfFirst { it.id == todo.id }
+        if(index != -1) {
+            todos.removeAt(index)
+            allTodos.value = todos
+        }
+    }
 }

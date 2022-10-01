@@ -21,20 +21,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/games_tableLayout"
+    <ScrollView
+            android:id="@+id/scrollView"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             >
-<!--        <TableLayout-->
-<!--                android:layout_gravity="center"-->
-<!--                android:id="@+id/games_tableLayout"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content">-->
-<!--            -->
-<!--        </TableLayout>-->
-    </androidx.recyclerview.widget.RecyclerView>
+
+        <TableLayout
+                android:id="@+id/games_tableLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                />
+    </ScrollView>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
