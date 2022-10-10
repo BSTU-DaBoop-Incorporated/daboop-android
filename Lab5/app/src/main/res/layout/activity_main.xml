@@ -21,11 +21,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/todos_recycler_view"
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/todo_list_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/todos_recycler_view_item" />
+            android:layout_height="match_parent"
+            android:name="com.example.lab5.fragment.TodoListFragment"/>
 
 </LinearLayout>
 
