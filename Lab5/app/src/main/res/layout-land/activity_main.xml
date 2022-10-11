@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:theme="@style/Theme.Lab5.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.Lab5.PopupOverlay"
+                android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+   <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="horizontal"
+           android:padding="20dp"
+           >
+       <androidx.fragment.app.FragmentContainerView
+               android:id="@+id/todo_list_fragment_container"
+               android:layout_height="wrap_content"
+               android:name="com.example.lab5.fragment.TodoListFragment"
+               tools:layout="@layout/fragment_todo_list"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_marginEnd="20dp"/>
+       
+       <androidx.fragment.app.FragmentContainerView
+               android:id="@+id/todo_details_fragment_container"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               
+               android:name="com.example.lab5.fragment.TodoListFragment"
+               tools:layout="@layout/fragment_todo_details" />
+       
+   </LinearLayout>
+
+</LinearLayout>

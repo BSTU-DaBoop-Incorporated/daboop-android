@@ -25,6 +25,7 @@
             android:id="@+id/todo_list_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.example.lab5.fragment.TodoListFragment" />
+            android:name="com.example.lab5.fragment.TodoListFragment"
+            tools:layout="@layout/fragment_todo_list" />
 
 </LinearLayout>

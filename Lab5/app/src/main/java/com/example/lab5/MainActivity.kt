@@ -2,6 +2,7 @@ package com.example.lab5
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.ContextMenu
@@ -17,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.databinding.ActivityMainBinding
+import com.example.lab5.fragment.TodoDetailsFragment
 import com.example.lab5.model.Todo
 import com.example.lab5.viewModel.TodosViewModel
 
@@ -32,6 +34,15 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val orientation = resources.configuration.orientation
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.todo_details_fragment_container,
+                    TodoDetailsFragment.newInstance(null))
+                .commit()
+        }
 
         setSupportActionBar(binding.toolbar)
     }

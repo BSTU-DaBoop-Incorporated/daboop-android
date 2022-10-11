@@ -2,14 +2,15 @@ package com.example.lab5.fragment
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.*
+import com.example.lab5.ActivityHelpers.createDetailsTodoFragment
 import com.example.lab5.model.Todo
 import com.example.lab5.viewModel.TodosViewModel
 
@@ -111,9 +112,14 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
 
     private fun viewDetails(todo: Todo) {
+        
         activity?.let {
+            if(it.isHorizontalOrientation()) {
+                createDetailsTodoFragment(it, todo)
+                return
+            }
             val intent = Intent(it, TodoDetailsActivity::class.java)
-            intent.putExtra("todo", todo)
+            intent.putExtra("todo", todo as java.io.Serializable)
             startActivity(intent)
         }
     }
@@ -133,7 +139,12 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
     }
 
     private fun createNew() {
-        activity.let {
+        activity?.let {
+            if(it.isHorizontalOrientation()) {
+                createDetailsTodoFragment(it, null)
+                return
+            }
+
             val intent = Intent(it, TodoDetailsActivity::class.java)
             startActivity(intent)
         }
