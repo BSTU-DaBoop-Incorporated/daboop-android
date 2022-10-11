@@ -27,21 +27,9 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val view : View? = inflater.inflate(R.layout.fragment_todo_list, container, false)
+        val view: View? = inflater.inflate(R.layout.fragment_todo_list, container, false)
         activity?.let {
             val todosList = FileHelpers.loadTodos(it)
-
-//        val todo1 = Todo()
-//        todo1.id = "1"
-//        todo1.task = "Task 1"
-//        todo1.difficulty = 1
-//
-//        val todo2 = Todo()
-//        todo2.id = "2"
-//        todo2.task = "Task 2"
-//        todo2.difficulty = 2
-//        todo2.isDone = true
-
 
             viewModel.allTodos.value = todosList
             if (it.intent.action == "save todo") {
@@ -67,10 +55,10 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this)[TodosViewModel::class.java]
-        // TODO: Use the ViewModel
-    }
-    
+   }
+
 
     val MENU_VIEW_DETAILS = 1
     val MENU_FINISH_TODO = 2
@@ -120,18 +108,36 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
 
     }
-    
 
 
     private fun viewDetails(todo: Todo) {
         activity?.let {
-//            Toast.makeText(it, todo.task, Toast.LENGTH_SHORT).show()
             val intent = Intent(it, TodoDetailsActivity::class.java)
             intent.putExtra("todo", todo)
             startActivity(intent)
         }
     }
-    
-    
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, menuInflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add_action -> {
+                createNew()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun createNew() {
+        activity.let {
+            val intent = Intent(it, TodoDetailsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
 
 }

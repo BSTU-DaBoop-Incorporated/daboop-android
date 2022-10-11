@@ -40,24 +40,5 @@ class MainActivity : AppCompatActivity() {
 ////        super.onSaveInstanceState(outState, outPersistentState)
 ////    }
 //
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.add_action -> {
-                createNew()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    fun createNew() {
-        val intent = Intent(this, TodoDetailsActivity::class.java)
-        startActivity(intent)
-    }
-
 
 }
