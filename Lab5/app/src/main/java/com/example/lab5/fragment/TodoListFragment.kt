@@ -33,7 +33,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
             val todosList = FileHelpers.loadTodos(it)
 
             viewModel.allTodos.value = todosList
-            if (it.intent.action == "save todo") {
+            if (it.intent.action == "save todo") { // TODO: Still not working
                 val todo = it.intent.getSerializableExtra("todo") as Todo
 
                 viewModel.upsertTodo(todo)
@@ -54,6 +54,9 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)

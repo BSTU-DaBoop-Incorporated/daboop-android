@@ -79,9 +79,8 @@ class TodoDetailsFragment : Fragment() {
         activity?.let {
             val intent = Intent(it, MainActivity::class.java)
             intent.action = "save todo"
-            if(it.isHorizontalOrientation()) {
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK 
-                    // TODO: not working
+            if(it.isHorizontalOrientation()) { // TODO: Still not working
+                intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT 
             }
             val todo = Todo()
             todo.task = todoDetailsViewModel.task.get()
