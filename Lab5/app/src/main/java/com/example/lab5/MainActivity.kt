@@ -1,25 +1,14 @@
 package com.example.lab5
 
-import android.app.AlertDialog
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.ContextMenu
-import android.view.ContextMenu.ContextMenuInfo
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
-import androidx.activity.viewModels
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.databinding.ActivityMainBinding
 import com.example.lab5.fragment.TodoDetailsFragment
-import com.example.lab5.model.Todo
 import com.example.lab5.viewModel.TodosViewModel
 
 
@@ -46,10 +35,17 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
     }
-//
-////    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-////        super.onSaveInstanceState(outState, outPersistentState)
-////    }
-//
+
+    override fun onBackPressed() {
+        val fm = supportFragmentManager
+        if (fm.backStackEntryCount > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+            return
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+        }
+        super.onBackPressed()
+    }
 
 }

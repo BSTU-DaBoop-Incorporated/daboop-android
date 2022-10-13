@@ -10,6 +10,7 @@ object ActivityHelpers {
     fun createDetailsTodoFragment(activity: FragmentActivity, todo: Todo?) {
             val fragment = TodoDetailsFragment.newInstance(todo)
             activity.supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.todo_details_fragment_container, fragment)
                 .commit()
 

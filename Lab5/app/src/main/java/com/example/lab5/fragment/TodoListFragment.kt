@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.*
@@ -20,7 +21,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
         fun newInstance() = TodoListFragment()
     }
 
-    private lateinit var viewModel: TodosViewModel
+    private val viewModel: TodosViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +61,6 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this)[TodosViewModel::class.java]
    }
 
 

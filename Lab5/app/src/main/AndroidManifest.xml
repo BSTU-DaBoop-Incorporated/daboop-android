@@ -15,7 +15,7 @@
         <activity
                 android:name=".TodoDetailsActivity"
                 android:exported="false"
-                android:theme="@style/Theme.Lab5.NoActionBar">
+                android:parentActivityName="com.example.lab5.MainActivity">
             <meta-data
                     android:name="android.app.lib_name"
                     android:value="" />

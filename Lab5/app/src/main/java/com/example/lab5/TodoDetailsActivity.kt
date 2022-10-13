@@ -27,6 +27,7 @@ class TodoDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTodoDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 //        val todoVm: TodoDetailsViewModel by viewModels()
 //        todoDetailsViewModel = todoVm

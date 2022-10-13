@@ -7,7 +7,9 @@ import android.os.Parcelable
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.lab5.ActivityHelpers
 import com.example.lab5.MainActivity
 import com.example.lab5.R
 import com.example.lab5.databinding.ActivityTodoDetailsBinding
@@ -20,8 +22,8 @@ import java.util.*
 
 
 class TodoDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private lateinit var todoDetailsViewModel: TodoDetailsViewModel
+    private val todosViewModel: TodosViewModel by activityViewModels()
     private lateinit var binding: FragmentTodoDetailsBinding
     private var originalTodo: Todo? = null
     private var menu: Menu? = null
@@ -31,7 +33,6 @@ class TodoDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         todoDetailsViewModel = ViewModelProvider(this)[TodoDetailsViewModel::class.java]
-        
     }
 
     override fun onCreateView(
@@ -76,18 +77,22 @@ class TodoDetailsFragment : Fragment() {
     }
 
     private fun saveTodo() {
+        val todo = Todo()
+        todo.task = todoDetailsViewModel.task.get()
+        todo.difficulty = todoDetailsViewModel.difficulty.get()
+        todo.isDone = todoDetailsViewModel.isDone.get()
+        todo.id = originalTodo?.id ?: UUID.randomUUID().toString()
+        
         activity?.let {
+            if(it.isHorizontalOrientation()) { 
+                todosViewModel.upsertTodo(todo)
+//                todoDetailsViewModel.isEditMode.set(false)
+                ActivityHelpers.createDetailsTodoFragment(it, todo)
+                return
+            }
             val intent = Intent(it, MainActivity::class.java)
             intent.action = "save todo"
-            if(it.isHorizontalOrientation()) { // TODO: Still not working
-                intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT 
-            }
-            val todo = Todo()
-            todo.task = todoDetailsViewModel.task.get()
-            todo.difficulty = todoDetailsViewModel.difficulty.get()
-            todo.isDone = todoDetailsViewModel.isDone.get()
-            todo.id = originalTodo?.id ?: UUID.randomUUID().toString()
-
+            
             intent.putExtra("todo", todo)
 
             startActivity(intent)
