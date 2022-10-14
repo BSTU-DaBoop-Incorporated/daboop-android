@@ -6,7 +6,9 @@ import com.example.lab5.model.Todo
 
 class TodosViewModel :ViewModel(){
     var allTodos: MutableLiveData<List<Todo>> = MutableLiveData<List<Todo>>()
-    
+    val taskFilter = MutableLiveData<String?>(null)
+    val sortOrderText = MutableLiveData<String>("ASC")
+    val sortOrderSelectedItemPosition = MutableLiveData(0)
     
     fun addTodo (todo: Todo) {
         allTodos.value = allTodos.value?.plus(todo)

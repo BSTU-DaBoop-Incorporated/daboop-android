@@ -7,17 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.CursorAdapter
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.datasource.TodoDatabaseHelper
 import com.example.lab5.model.Todo
-
+enum class SortOrder(val value: String, val label: String) {
+    ASC("ASC", "Ascending"),
+    DESC("DESC", "Descending")
+}
 class TodoCursorAdapter(val context: Context, private val todoInterface: TodoInterface) :
     RecyclerView.Adapter<TodoCursorAdapter.TodoViewHolder>() {
+    var searchField = TodoDatabaseHelper.KEY_TASK
+    var sortOrder = SortOrder.ASC
+    var taskFilter: String? = null
     private val helper: TodoDatabaseHelper = TodoDatabaseHelper(context)
     private var _cursor: Cursor? = null
     private var cursor: Cursor 
@@ -30,6 +33,13 @@ class TodoCursorAdapter(val context: Context, private val todoInterface: TodoInt
         setHasStableIds(true)
         cursor = helper.getCursor()
         
+    }
+    
+    fun updateCursor() {
+        cursor.close()
+        cursor = helper.getCursor(searchField, sortOrder, taskFilter)
+        
+        notifyDataSetChanged()
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {

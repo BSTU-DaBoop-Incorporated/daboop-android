@@ -1,21 +1,27 @@
 package com.example.lab5.fragment
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.*
+import com.example.lab5.SortOrder
+import com.example.lab5.databinding.FragmentTodoListBinding
 import com.example.lab5.datasource.TodoDatabaseHelper
+import com.example.lab5.event.TodoTableUpdatedEvent
 import com.example.lab5.helper.ActivityHelpers.createDetailsTodoFragment
-import com.example.lab5.helper.FileHelpers
 import com.example.lab5.helper.isHorizontalOrientation
 import com.example.lab5.model.Todo
 import com.example.lab5.viewModel.TodosViewModel
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+
 
 class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
@@ -32,57 +38,46 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val view: View? = inflater.inflate(R.layout.fragment_todo_list, container, false)
+        val binding = FragmentTodoListBinding.inflate(layoutInflater, container, false)
+        binding.viewModel = viewModel
+
+        binding.sortOrderSpinner.adapter = ArrayAdapter(requireContext(), android.R.layout
+            .simple_list_item_1,
+            listOf("Ascending","Descending"))
+
         activity?.let {
-//            val todosList = FileHelpers.loadTodos(it)
 
-//            viewModel.allTodos.value = todosList
-//            if (it.intent.action == "save todo") { // TODO: Still not working
-//                val todo = it.intent.getSerializableExtra("todo") as Todo
-//
-//                viewModel.upsertTodo(todo)
-//            }
-
-            val recyclerView = view!!.findViewById<RecyclerView>(R.id.todos_recycler_view)
+            val recyclerView = binding.root.findViewById<RecyclerView>(R.id.todos_recycler_view)
             val adapter = TodoCursorAdapter(activity!!, this)
             todoAdapter = adapter
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(it)
             registerForContextMenu(recyclerView)
-            
-            val dbhelper = TodoDatabaseHelper(activity!!)
-            val fakeTodo = Todo(
-                id = 0,
-                task = "Fake todo",
-                difficulty = 1,
-                isDone = false
-            )
 
-            val fakeTodo2 = Todo(
-                id = 1,
-                task = "Fake todo 2",
-                difficulty = 6,
-                isDone = false
-            )
-            dbhelper.upsert(fakeTodo)
-            dbhelper.upsert(fakeTodo2)
-//
-//            viewModel.allTodos.observe(it) { todos ->
-//                adapter.submitList(todos)
-//                FileHelpers.saveTodos(viewModel.allTodos.value!!, it)
-//
-//            }
         }
-        return view
+
+        viewModel.taskFilter.observe(viewLifecycleOwner) {
+            todoAdapter.taskFilter = it
+            todoAdapter.updateCursor()
+        }
+        
+        viewModel.sortOrderSelectedItemPosition.observe(viewLifecycleOwner) {
+            todoAdapter.sortOrder = SortOrder.values()[it]
+            todoAdapter.updateCursor()
+        }
+        return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
+    fun updateTodo(todo: Todo) {
+        val helper = TodoDatabaseHelper(activity!!)
+        helper.upsert(todo)
+        onMessageEvent(TodoTableUpdatedEvent())
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-   }
+    }
 
 
     val MENU_VIEW_DETAILS = 1
@@ -101,17 +96,14 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
         if (todo.isDone == true) {
 
             menu.add(0, MENU_FINISH_TODO, 0, "Restore task").setOnMenuItemClickListener {
-
-                val copy = viewModel.copyTodo(todo)
-                copy.isDone = false
-                viewModel.upsertTodo(copy)
+                todo.isDone = false
+                updateTodo(todo)
                 true
             }
         } else {
             menu.add(0, MENU_FINISH_TODO, 0, "Finish task").setOnMenuItemClickListener {
-                val copy = viewModel.copyTodo(todo)
-                copy.isDone = true
-                viewModel.upsertTodo(copy)
+                todo.isDone = true
+                updateTodo(todo)
                 true
             }
         }
@@ -139,9 +131,9 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
 
     private fun viewDetails(todo: Todo) {
-        
+
         activity?.let {
-            if(it.isHorizontalOrientation()) {
+            if (it.isHorizontalOrientation()) {
                 createDetailsTodoFragment(it, todo)
                 return
             }
@@ -167,7 +159,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
     private fun createNew() {
         activity?.let {
-            if(it.isHorizontalOrientation()) {
+            if (it.isHorizontalOrientation()) {
                 createDetailsTodoFragment(it, null)
                 return
             }
@@ -177,14 +169,19 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
         }
     }
 
-    
-    override fun onStart() {
-        super.onStart()
+
+    @Subscribe
+    fun onMessageEvent(event: TodoTableUpdatedEvent) {
+        todoAdapter.updateCursor()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         EventBus.getDefault().register(this)
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDetach() {
+        super.onDetach()
         EventBus.getDefault().unregister(this)
     }
 

@@ -11,9 +11,13 @@ import com.example.lab5.MainActivity
 import com.example.lab5.R
 import com.example.lab5.databinding.FragmentTodoDetailsBinding
 import com.example.lab5.datasource.TodoDatabaseHelper
+import com.example.lab5.event.TodoTableUpdatedEvent
+import com.example.lab5.helper.ActivityHelpers
+import com.example.lab5.helper.isHorizontalOrientation
 import com.example.lab5.model.Todo
 import com.example.lab5.viewModel.TodoDetailsViewModel
 import com.example.lab5.viewModel.TodosViewModel
+import org.greenrobot.eventbus.EventBus
 
 
 class TodoDetailsFragment : Fragment() {
@@ -80,24 +84,21 @@ class TodoDetailsFragment : Fragment() {
 
         val todoDatabaseHelper = TodoDatabaseHelper(requireContext())
         todoDatabaseHelper.upsert(todo)
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        startActivity(intent)
+        
+        EventBus.getDefault().post(TodoTableUpdatedEvent())
+        activity?.let {
+            if(it.isHorizontalOrientation()) {
+                todosViewModel.upsertTodo(todo)
+                todoDetailsViewModel.isEditMode.set(false)
+                ActivityHelpers.createDetailsTodoFragment(it, todo)
+                return
+            }
+            val intent = Intent(it, MainActivity::class.java)
+            intent.action = "save todo"
+            startActivity(intent)
+                
+        }
 
-//        
-//        activity?.let {
-//            if(it.isHorizontalOrientation()) { 
-//                todosViewModel.upsertTodo(todo)
-////                todoDetailsViewModel.isEditMode.set(false)
-//                ActivityHelpers.createDetailsTodoFragment(it, todo)
-//                return
-//            }
-//            val intent = Intent(it, MainActivity::class.java)
-//            intent.action = "save todo"
-//            
-//            intent.putExtra("todo", todo)
-//
-//            startActivity(intent)
-//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

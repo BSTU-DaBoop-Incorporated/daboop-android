@@ -36,11 +36,7 @@ class TodoListAdapter(private val todoInterface: TodoInterface) :
         val todoDifficulty: TextView = itemView.findViewById(R.id.todo_difficulty)
         val todoIsDoneCheckbox: CheckBox = itemView.findViewById(R.id.todo_is_done_checkbox)
         val frameLayout: FrameLayout = itemView.findViewById(R.id.frame_layout)
-
-        //getContextMenuInfo 
-//        override fun getContextMenuInfo(): ContextMenu.ContextMenuInfo? {
-//            return null
-//        }
+        
         init {
             itemView.setOnCreateContextMenuListener(this)
         }
@@ -50,10 +46,7 @@ class TodoListAdapter(private val todoInterface: TodoInterface) :
             todoTask.text = item.task
             todoDifficulty.text = item.difficulty.toString()
             todoIsDoneCheckbox.isChecked = item.isDone ?: false
-
-//            frameLayout.setOnClickListener {
-//                todoInterface.onRowClick(item)
-//            }
+            
         }
 
         companion object {

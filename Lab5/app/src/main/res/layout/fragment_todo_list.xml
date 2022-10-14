@@ -1,12 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         tools:context=".fragment.TodoListFragment">
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/todos_recycler_view"
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="com.example.lab5.viewModel.TodosViewModel" />
+    </data>
+
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/todos_recycler_view_item" />
-</FrameLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/sort_order_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:selectedItemPosition="@={viewModel.sortOrderSelectedItemPosition}" />
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="Search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.taskFilter}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/todos_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/todos_recycler_view_item" />
+    </LinearLayout>
+
+</layout>

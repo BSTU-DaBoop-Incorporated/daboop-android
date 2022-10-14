@@ -5,27 +5,28 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.lab5.SortOrder
 import com.example.lab5.model.Todo
 
 class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null,
     DATABASE_VERSION) {
     companion object {
-        public val DATABASE_VERSION = 1
+        public val DATABASE_VERSION = 6
         public val DATABASE_NAME = "TodoDatabase"
-        public val TABLE_TODOS = "EmployeeTable"
+        public val TABLE_TODOS = "Todos"
         public val KEY_ID = "id"
         public val KEY_TASK = "name"
-        public val KEY_DIFFICULTY = "email"
-        public val KEY_IS_DONE = "email"
+        public val KEY_DIFFICULTY = "difficulty"
+        public val KEY_IS_DONE = "isDone"
     }
 
+    
     override fun onCreate(db: SQLiteDatabase?) {
         
         
-        //language=sql
         val CREATE_TODO_TABLE =
-            ("CREATE TABLE $TABLE_TODOS($KEY_ID STRING PRIMARY KEY AUTOINCREMENT,$KEY_TASK TEXT, " +
-                    "$KEY_DIFFICULTY INTEGER" + "$KEY_IS_DONE INTEGER DEFAULT 0)")
+            ("CREATE TABLE $TABLE_TODOS($KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT,$KEY_TASK TEXT, " +
+                    "$KEY_DIFFICULTY INTEGER," + "$KEY_IS_DONE INTEGER DEFAULT 0)")
         db?.execSQL(CREATE_TODO_TABLE)
     }
 
@@ -55,7 +56,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         contentValues.put(KEY_ID, todo.id)
         contentValues.put(KEY_TASK, todo.task) 
         contentValues.put(KEY_DIFFICULTY,todo.difficulty )
-        contentValues.put(KEY_IS_DONE, todo.isDone)
+        contentValues.put(KEY_IS_DONE, if (todo.isDone == true) 1 else 0)
         
         db.update(TABLE_TODOS, contentValues, "$KEY_ID = ?", arrayOf(todo.id.toString()))
         db.close()
@@ -67,7 +68,7 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         contentValues.put(KEY_ID, todo.id)
         contentValues.put(KEY_TASK, todo.task) 
         contentValues.put(KEY_DIFFICULTY,todo.difficulty )
-        contentValues.put(KEY_IS_DONE, todo.isDone)
+        contentValues.put(KEY_IS_DONE, if (todo.isDone == true) 1 else 0)
         
         val count = db.update(TABLE_TODOS, contentValues, "$KEY_ID = ?", arrayOf(todo.id.toString()))
         if (count == 0) {
@@ -82,9 +83,17 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         db.close()
     }
     
-    fun getCursor() : Cursor {
+    fun getCursor(searchColumn: String? = null, searchOrder: SortOrder? = null, taskFilter: 
+    String? = null) : Cursor {
         val db = this.readableDatabase
-        val selectQuery = "SELECT * FROM $TABLE_TODOS"
+        var selectQuery = "SELECT * FROM $TABLE_TODOS"
+        if(taskFilter?.isNotEmpty() == true) {
+            selectQuery += " WHERE $KEY_TASK LIKE '%$taskFilter%'"
+        }
+        selectQuery += " ORDER BY $KEY_IS_DONE ASC"
+        if(searchColumn != null && searchOrder != null) {
+            selectQuery += ",$searchColumn $searchOrder"
+        }
         val cursor = db.rawQuery(selectQuery, null)
         return cursor
     }
