@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.example.lab5.databinding.ActivityMainBinding
 import com.example.lab5.fragment.TodoDetailsFragment
 import com.example.lab5.viewModel.TodosViewModel
+import org.greenrobot.eventbus.EventBus
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,7 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
     }
-
     override fun onBackPressed() {
         val fm = supportFragmentManager
         if (fm.backStackEntryCount > 0) {

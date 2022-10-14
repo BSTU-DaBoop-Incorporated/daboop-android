@@ -2,8 +2,6 @@ package com.example.lab5.fragment
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.res.Configuration
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -11,9 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.*
-import com.example.lab5.ActivityHelpers.createDetailsTodoFragment
+import com.example.lab5.datasource.TodoDatabaseHelper
+import com.example.lab5.helper.ActivityHelpers.createDetailsTodoFragment
+import com.example.lab5.helper.FileHelpers
+import com.example.lab5.helper.isHorizontalOrientation
 import com.example.lab5.model.Todo
 import com.example.lab5.viewModel.TodosViewModel
+import org.greenrobot.eventbus.EventBus
 
 class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
@@ -22,6 +24,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
     }
 
     private val viewModel: TodosViewModel by activityViewModels()
+    private lateinit var todoAdapter: TodoCursorAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,26 +34,44 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
         val view: View? = inflater.inflate(R.layout.fragment_todo_list, container, false)
         activity?.let {
-            val todosList = FileHelpers.loadTodos(it)
+//            val todosList = FileHelpers.loadTodos(it)
 
-            viewModel.allTodos.value = todosList
-            if (it.intent.action == "save todo") { // TODO: Still not working
-                val todo = it.intent.getSerializableExtra("todo") as Todo
-
-                viewModel.upsertTodo(todo)
-            }
+//            viewModel.allTodos.value = todosList
+//            if (it.intent.action == "save todo") { // TODO: Still not working
+//                val todo = it.intent.getSerializableExtra("todo") as Todo
+//
+//                viewModel.upsertTodo(todo)
+//            }
 
             val recyclerView = view!!.findViewById<RecyclerView>(R.id.todos_recycler_view)
-            val adapter = TodoListAdapter(this)
+            val adapter = TodoCursorAdapter(activity!!, this)
+            todoAdapter = adapter
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(it)
             registerForContextMenu(recyclerView)
+            
+            val dbhelper = TodoDatabaseHelper(activity!!)
+            val fakeTodo = Todo(
+                id = 0,
+                task = "Fake todo",
+                difficulty = 1,
+                isDone = false
+            )
 
-            viewModel.allTodos.observe(it) { todos ->
-                adapter.submitList(todos)
-                FileHelpers.saveTodos(viewModel.allTodos.value!!, it)
-
-            }
+            val fakeTodo2 = Todo(
+                id = 1,
+                task = "Fake todo 2",
+                difficulty = 6,
+                isDone = false
+            )
+            dbhelper.upsert(fakeTodo)
+            dbhelper.upsert(fakeTodo2)
+//
+//            viewModel.allTodos.observe(it) { todos ->
+//                adapter.submitList(todos)
+//                FileHelpers.saveTodos(viewModel.allTodos.value!!, it)
+//
+//            }
         }
         return view
     }
@@ -103,7 +124,10 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.yes
                     ) { _, _ ->
-                        viewModel.deleteTodo(todo)
+//                        viewModel.deleteTodo(todo)
+                        val todoDatabaseHelper = TodoDatabaseHelper(requireContext())
+                        todoDatabaseHelper.delete(todo)
+
                     }
                     .setNegativeButton(android.R.string.no, null).show()
             }
@@ -153,5 +177,15 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
         }
     }
 
+    
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
 
 }

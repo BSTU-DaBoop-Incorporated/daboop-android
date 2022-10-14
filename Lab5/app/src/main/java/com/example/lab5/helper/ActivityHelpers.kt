@@ -1,7 +1,8 @@
-package com.example.lab5
+package com.example.lab5.helper
 
 import android.content.res.Configuration
 import androidx.fragment.app.FragmentActivity
+import com.example.lab5.R
 import com.example.lab5.fragment.TodoDetailsFragment
 import com.example.lab5.model.Todo
 

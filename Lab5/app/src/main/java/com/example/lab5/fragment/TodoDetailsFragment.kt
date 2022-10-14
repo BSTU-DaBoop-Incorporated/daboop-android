@@ -3,22 +3,17 @@ package com.example.lab5.fragment
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.lab5.ActivityHelpers
 import com.example.lab5.MainActivity
 import com.example.lab5.R
-import com.example.lab5.databinding.ActivityTodoDetailsBinding
 import com.example.lab5.databinding.FragmentTodoDetailsBinding
-import com.example.lab5.isHorizontalOrientation
+import com.example.lab5.datasource.TodoDatabaseHelper
 import com.example.lab5.model.Todo
 import com.example.lab5.viewModel.TodoDetailsViewModel
 import com.example.lab5.viewModel.TodosViewModel
-import java.util.*
 
 
 class TodoDetailsFragment : Fragment() {
@@ -49,7 +44,7 @@ class TodoDetailsFragment : Fragment() {
         }
         activity?.let {
             binding.viewModel = todoDetailsViewModel
-            if(originalTodo == null) /* is not already set */ {
+            if (originalTodo == null) /* is not already set */ {
                 originalTodo = it.intent.getSerializableExtra("todo") as Todo?
             }
             todoDetailsViewModel.task.set(originalTodo?.task)
@@ -81,39 +76,45 @@ class TodoDetailsFragment : Fragment() {
         todo.task = todoDetailsViewModel.task.get()
         todo.difficulty = todoDetailsViewModel.difficulty.get()
         todo.isDone = todoDetailsViewModel.isDone.get()
-        todo.id = originalTodo?.id ?: UUID.randomUUID().toString()
-        
-        activity?.let {
-            if(it.isHorizontalOrientation()) { 
-                todosViewModel.upsertTodo(todo)
-//                todoDetailsViewModel.isEditMode.set(false)
-                ActivityHelpers.createDetailsTodoFragment(it, todo)
-                return
-            }
-            val intent = Intent(it, MainActivity::class.java)
-            intent.action = "save todo"
-            
-            intent.putExtra("todo", todo)
+        todo.id = originalTodo?.id
 
-            startActivity(intent)
-        }
+        val todoDatabaseHelper = TodoDatabaseHelper(requireContext())
+        todoDatabaseHelper.upsert(todo)
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+
+//        
+//        activity?.let {
+//            if(it.isHorizontalOrientation()) { 
+//                todosViewModel.upsertTodo(todo)
+////                todoDetailsViewModel.isEditMode.set(false)
+//                ActivityHelpers.createDetailsTodoFragment(it, todo)
+//                return
+//            }
+//            val intent = Intent(it, MainActivity::class.java)
+//            intent.action = "save todo"
+//            
+//            intent.putExtra("todo", todo)
+//
+//            startActivity(intent)
+//        }
     }
-    
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_todo_details, menu)
         this.menu = menu
 
-        if(originalTodo == null) {
+        if (originalTodo == null) {
             menu.findItem(R.id.edit_action).isVisible = false
         }
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.edit_action -> {
-                if(todoDetailsViewModel.isEditMode.get() == true) {
+                if (todoDetailsViewModel.isEditMode.get() == true) {
                     item.title = "Edit"
                     todoDetailsViewModel.isEditMode.set(false)
                     todoDetailsViewModel.task.set(originalTodo?.task)
