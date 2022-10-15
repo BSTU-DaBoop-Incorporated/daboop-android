@@ -119,6 +119,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 //                        viewModel.deleteTodo(todo)
                         val todoDatabaseHelper = TodoDatabaseHelper(requireContext())
                         todoDatabaseHelper.delete(todo)
+                        onMessageEvent(TodoTableUpdatedEvent())
 
                     }
                     .setNegativeButton(android.R.string.no, null).show()
