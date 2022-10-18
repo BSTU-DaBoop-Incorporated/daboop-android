@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".fragment.TodoListFragment">
 
     <data>
@@ -15,12 +16,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/sort_order_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:selectedItemPosition="@={viewModel.sortOrderSelectedItemPosition}" />
+<!--        <androidx.appcompat.widget.AppCompatSpinner-->
+<!--                android:id="@+id/sort_order_spinner"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:selectedItemPosition="@={viewModel.sortOrderSelectedItemPosition}" />-->
 
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -39,7 +40,8 @@
                 android:id="@+id/todos_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/todos_recycler_view_item" />
+                tools:listitem="@layout/todos_recycler_view_item" 
+                app:layoutManager="@{viewModel.layoutManager}"/>
     </LinearLayout>
 
 </layout>

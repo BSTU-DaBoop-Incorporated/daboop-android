@@ -82,7 +82,6 @@ class TodoCursorAdapter(val context: Context, private val todoInterface: TodoInt
         val todoTask: TextView = itemView.findViewById(R.id.todo_task)
         val todoDifficulty: TextView = itemView.findViewById(R.id.todo_difficulty)
         val todoIsDoneCheckbox: CheckBox = itemView.findViewById(R.id.todo_is_done_checkbox)
-        val frameLayout: FrameLayout = itemView.findViewById(R.id.frame_layout)
         
         init {
             itemView.setOnCreateContextMenuListener(this)

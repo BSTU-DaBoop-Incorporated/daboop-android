@@ -1,50 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
-        android:orientation="vertical">
+        android:id="@+id/drawer_layout">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:layout_height="wrap_content"
+    <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
             android:layout_width="match_parent"
-            android:theme="@style/Theme.Lab5.AppBarOverlay">
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/menu_main" />
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/Theme.Lab5.PopupOverlay"
-                android:layout_height="?attr/actionBarSize" />
+                android:theme="@style/Theme.Lab5.AppBarOverlay">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:background="?attr/colorPrimary"
+                    app:popupTheme="@style/Theme.Lab5.PopupOverlay"
+                    android:layout_height="?attr/actionBarSize" />
 
-   <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="horizontal"
-           android:padding="10dp"
-           >
-       <androidx.fragment.app.FragmentContainerView
-               android:id="@+id/todo_list_fragment_container"
-               android:layout_height="wrap_content"
-               android:name="com.example.lab5.fragment.TodoListFragment"
-               tools:layout="@layout/fragment_todo_list"
-               android:layout_width="0dp"
-               android:layout_weight="1"
-               android:layout_marginEnd="20dp"
-               android:maxWidth="160dp"/>
-       
-       <androidx.fragment.app.FragmentContainerView
-               android:id="@+id/todo_details_fragment_container"
-               android:layout_width="0dp"
-               android:layout_weight="1"
-               android:layout_height="wrap_content"
-               
-               android:name="com.example.lab5.fragment.TodoListFragment"
-               tools:layout="@layout/fragment_todo_details" />
-       
-   </LinearLayout>
-</LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+            <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/todo_list_fragment_container"
+                    android:layout_height="wrap_content"
+                    android:name="com.example.lab5.fragment.TodoListFragment"
+                    tools:layout="@layout/fragment_todo_list"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="20dp"
+                    android:maxWidth="160dp" />
+
+            <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/todo_details_fragment_container"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+
+                    android:name="com.example.lab5.fragment.TodoListFragment"
+                    tools:layout="@layout/fragment_todo_details" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

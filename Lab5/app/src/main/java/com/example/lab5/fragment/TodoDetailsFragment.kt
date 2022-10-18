@@ -115,17 +115,18 @@ class TodoDetailsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.edit_action -> {
-                if (todoDetailsViewModel.isEditMode.get() == true) {
+                return if (todoDetailsViewModel.isEditMode.get() == true) {
                     item.title = "Edit"
                     todoDetailsViewModel.isEditMode.set(false)
                     todoDetailsViewModel.task.set(originalTodo?.task)
                     todoDetailsViewModel.difficulty.set(originalTodo?.difficulty)
                     todoDetailsViewModel.isDone.set(originalTodo?.isDone)
+                    true
                 } else {
                     item.title = "Cancel edit"
                     todoDetailsViewModel.isEditMode.set(true)
+                    true
                 }
-
             }
         }
         return super.onOptionsItemSelected(item)

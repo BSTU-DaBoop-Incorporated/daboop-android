@@ -5,15 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab5.*
 import com.example.lab5.SortOrder
 import com.example.lab5.databinding.FragmentTodoListBinding
 import com.example.lab5.datasource.TodoDatabaseHelper
+import com.example.lab5.event.NavigationOptionItemSelectedEvent
 import com.example.lab5.event.TodoTableUpdatedEvent
 import com.example.lab5.helper.ActivityHelpers.createDetailsTodoFragment
 import com.example.lab5.helper.isHorizontalOrientation
@@ -41,9 +42,14 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
         val binding = FragmentTodoListBinding.inflate(layoutInflater, container, false)
         binding.viewModel = viewModel
 
+        viewModel.layoutManager.value =
+            viewModel.layoutManager.value ?: LinearLayoutManager(context)
+
+/*
         binding.sortOrderSpinner.adapter = ArrayAdapter(requireContext(), android.R.layout
             .simple_list_item_1,
             listOf("Ascending","Descending"))
+*/
 
         activity?.let {
 
@@ -51,7 +57,6 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
             val adapter = TodoCursorAdapter(activity!!, this)
             todoAdapter = adapter
             recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(it)
             registerForContextMenu(recyclerView)
 
         }
@@ -60,18 +65,23 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
             todoAdapter.taskFilter = it
             todoAdapter.updateCursor()
         }
-        
+
         viewModel.sortOrderSelectedItemPosition.observe(viewLifecycleOwner) {
             todoAdapter.sortOrder = SortOrder.values()[it]
             todoAdapter.updateCursor()
         }
+
+        viewModel.layoutManager.observe(viewLifecycleOwner) {
+            val recyclerView = binding.root.findViewById<RecyclerView>(R.id.todos_recycler_view)
+            recyclerView.layoutManager = it
+        }
         return binding.root
     }
-
+    
     fun updateTodo(todo: Todo) {
         val helper = TodoDatabaseHelper(activity!!)
         helper.upsert(todo)
-        onMessageEvent(TodoTableUpdatedEvent())
+        onTodoTableUpdatedEvent(TodoTableUpdatedEvent())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,7 +129,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 //                        viewModel.deleteTodo(todo)
                         val todoDatabaseHelper = TodoDatabaseHelper(requireContext())
                         todoDatabaseHelper.delete(todo)
-                        onMessageEvent(TodoTableUpdatedEvent())
+                        onTodoTableUpdatedEvent(TodoTableUpdatedEvent())
 
                     }
                     .setNegativeButton(android.R.string.no, null).show()
@@ -153,6 +163,15 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
         when (item.itemId) {
             R.id.add_action -> {
                 createNew()
+                return true
+            }
+            R.id.grid_layout_action -> {
+                viewModel.layoutManager.value = GridLayoutManager(context, 2)
+                return true
+            }
+            R.id.linear_layout_action -> {
+                viewModel.layoutManager.value = LinearLayoutManager(context)
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
@@ -172,10 +191,20 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list), TodoInterface {
 
 
     @Subscribe
-    fun onMessageEvent(event: TodoTableUpdatedEvent) {
+    fun onTodoTableUpdatedEvent(event: TodoTableUpdatedEvent) {
         todoAdapter.updateCursor()
     }
+    
+    @Subscribe
+    fun onNavigationOptionItemSelected(event: NavigationOptionItemSelectedEvent) {
+        onOptionsItemSelected(event.item)
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.layoutManager.value = null
+        
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         EventBus.getDefault().register(this)
