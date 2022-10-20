@@ -24,6 +24,7 @@ class TodoDetailsActivity : AppCompatActivity() {
     private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        
         super.onCreate(savedInstanceState)
         binding = ActivityTodoDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
