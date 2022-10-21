@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserContactDAO {
 
+//    @Query("SELECT * FROM UserContact ORDER BY name ASC")
+//    suspend fun getAll(): List<UserContact>
+//
+//    @Query("SELECT * FROM UserContact ORDER BY name ASC")
+//    fun getLiveData(): LiveData<List<UserContact>>
+//    
     @Query("SELECT * FROM UserContact ORDER BY name ASC")
-    suspend fun getAll(): List<UserContact>
-
-    @Query("SELECT * FROM UserContact ORDER BY name ASC")
-    suspend fun getLiveData(): LiveData<List<UserContact>>
-    
-    @Query("SELECT * FROM UserContact ORDER BY name ASC")
-    suspend fun getFlow(): Flow<List<UserContact>>
+    fun getFlow(): Flow<List<UserContact>>
     
     
 

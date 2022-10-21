@@ -3,6 +3,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".fragment.ListFragment">
+    
+    <data>
+        <variable
+                name="fragment"
+                type="com.example.lab9.fragment.ListFragment" />
+    </data>
 
     <LinearLayout
             android:layout_width="match_parent"
