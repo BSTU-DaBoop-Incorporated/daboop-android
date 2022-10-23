@@ -6,6 +6,9 @@ import com.example.lab9.model.UserContact
 import com.example.lab9.room.dao.UserContactDAO
 
 class UserContactDetailsViewModel (private val userContactDAO: UserContactDAO) : ViewModel() {
+
+    var isEditMode = ObservableField(false)
+
     val userContact = MutableLiveData<UserContact>()
     
     val name = ObservableField<String>()
@@ -19,15 +22,9 @@ class UserContactDetailsViewModel (private val userContactDAO: UserContactDAO) :
         email.set(userContact.value?.email)
     }
     
-    suspend fun insert(word: UserContact) {
-        userContactDAO.insert(word)
-    }
+    suspend fun insert(word: UserContact) = userContactDAO.insert(word)
 
-    suspend fun delete(word: UserContact) {
-        userContactDAO.delete(word)
-    }
+    suspend fun delete(word: UserContact) = userContactDAO.delete(word)
 
-    suspend fun upsert(word: UserContact) {
-        userContactDAO.upsert(word)
-    }
+    suspend fun upsert(word: UserContact) = userContactDAO.upsert(word)
 }

@@ -1,40 +1,42 @@
 package com.example.lab9.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lab9.R
+import com.example.lab9.UserContactApplication
 import com.example.lab9.adapter.UserContactListAdapter
 import com.example.lab9.databinding.FragmentListBinding
 import com.example.lab9.model.UserContact
 import com.example.lab9.viewModel.UserContactDetailsViewModel
 import com.example.lab9.viewModel.UserContactListViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import com.example.lab9.viewModel.UserContactViewModelFactory
+import kotlinx.coroutines.*
 import kotlin.random.Random
 
-
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 
 
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    private val userContactListViewModel: UserContactListViewModel by activityViewModels()
-    private val userContactDetailsViewModel: UserContactDetailsViewModel by activityViewModels()
+    private val userContactListViewModel: UserContactListViewModel by activityViewModels {
+        UserContactViewModelFactory((requireActivity().application as UserContactApplication).database
+            .userContactDao())
+    }
+
+    private val userContactDetailsViewModel: UserContactDetailsViewModel by activityViewModels {
+        UserContactViewModelFactory((requireActivity().application as UserContactApplication).database.userContactDao())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -51,10 +53,12 @@ class ListFragment : Fragment() {
         val recyclerView = binding.contactsRecyclerView
         binding.fragment = this
         context?.let {
-            val adapter = UserContactListAdapter(it, userContactListViewModel.userContacts)
+            recyclerView.layoutManager = LinearLayoutManager(context);
+            val adapter = UserContactListAdapter(viewLifecycleOwner, userContactListViewModel
+                .userContacts, ::showPopupMenu) 
             recyclerView.adapter = adapter
         }
-
+        
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_main, menu)
@@ -63,9 +67,7 @@ class ListFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_add -> {
-                        CoroutineScope(context = Dispatchers.IO).async {
-                            addContact()
-                        }
+                        goToDetails(null, true)
                         true
                     }
                     else -> false
@@ -73,29 +75,33 @@ class ListFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
-    
 
-
-    suspend fun addContact() {
-        val userContact = UserContact(null, "test${Random.nextInt(100)}", "test${Random.nextInt(100)}", "test${Random.nextInt(100)}")
-        return withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            userContactListViewModel.insert(userContact)
+    private fun showPopupMenu(contact: UserContact, view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        popupMenu.menu.add("Details").setOnMenuItemClickListener {
+            goToDetails(contact, isEditMode = false)
+            true
         }
+        popupMenu.menu.add("Edit").setOnMenuItemClickListener {
+            goToDetails(contact, isEditMode = true)
+            true
+        }
+        popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+            deleteContact(contact)
+            true
+        }
+        popupMenu.show()
     }
-    fun editContact(Id: Int) {
-        userContactDetailsViewModel.userContact.value = userContactListViewModel.userContacts
-            .value?.find { it.id == Id }
+    
+    private fun goToDetails(contact: UserContact?, isEditMode: Boolean = false) {
+        userContactDetailsViewModel.userContact.value = contact
+        userContactDetailsViewModel.isEditMode.set(isEditMode)
         findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
     }
     
-    suspend fun deleteContact (Id: Int) {
-       val model = userContactListViewModel.userContacts
-            .value?.find { it.id == Id }
-        
-        if(model != null) {
-            return withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                userContactListViewModel.delete(model)
-            }
+    private fun deleteContact (contact: UserContact) {
+        CoroutineScope(context = Dispatchers.IO).launch {
+            userContactListViewModel.delete(contact)
         }
     }
 
@@ -104,3 +110,4 @@ class ListFragment : Fragment() {
         _binding = null
     }
 }
+

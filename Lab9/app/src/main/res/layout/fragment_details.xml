@@ -1,26 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
                 name="fragment"
                 type="com.example.lab9.fragment.DetailsFragment" />
+
         <variable
                 name="viewModel"
                 type="com.example.lab9.viewModel.UserContactDetailsViewModel" />
+        
+        <import type="android.view.View" />
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+
+    <LinearLayout 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".fragment.DetailsFragment">
+            tools:context=".fragment.DetailsFragment"
+            android:padding="20dp"
+            android:orientation="vertical">
 
-        <EditText
-                android:id="@+id/textview_second"
-                android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.name}"
+                android:hint="Name"
+                android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.name}"
+                    android:enabled="@{viewModel.isEditMode}"
+                    android:autofillHints="name"
+                    android:inputType="text"
+                    >
+                
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.email}"
+                    android:enabled="@{viewModel.isEditMode}"
+                    android:autofillHints="emailAddress"
+                    android:inputType="textEmailAddress"
+                    >
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone"
+                android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.phone}"
+                    android:enabled="@{viewModel.isEditMode}"
+                    android:autofillHints="phone"
+                    android:inputType="phone"
+                    >
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        
+        
+        <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 />
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:background="?colorPrimary"
+                android:onClick="@{fragment::onSaveClick}"
+                android:visibility="@{viewModel.isEditMode ? View.VISIBLE : View.GONE}"
+                android:text="Save"/>
 
     </LinearLayout>
 </layout>
