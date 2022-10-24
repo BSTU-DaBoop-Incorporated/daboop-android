@@ -1,5 +1,7 @@
 package com.example.lab9.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -84,6 +86,12 @@ class ListFragment : Fragment() {
         }
         popupMenu.menu.add("Edit").setOnMenuItemClickListener {
             goToDetails(contact, isEditMode = true)
+            true
+        }
+        popupMenu.menu.add("Dial").setOnMenuItemClickListener { 
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:" + contact.phone)
+            startActivity(intent)            
             true
         }
         popupMenu.menu.add("Delete").setOnMenuItemClickListener {
