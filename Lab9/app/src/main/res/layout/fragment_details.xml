@@ -72,13 +72,19 @@
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
 
-        
-        
-        <View
-                android:layout_width="wrap_content"
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                />
+                android:padding="16dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/cardview_shadow_start_color"
+                android:src="@{viewModel.imageUri}"
+                android:onClick="@{fragment::imageClick}"/>
+        
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
@@ -88,6 +94,9 @@
                 android:onClick="@{fragment::onSaveClick}"
                 android:visibility="@{viewModel.isEditMode ? View.VISIBLE : View.GONE}"
                 android:text="Save"/>
+        
+        
+        
 
     </LinearLayout>
 </layout>
