@@ -79,31 +79,18 @@ fun main(args: Array<String>) {
     val (first, second) = numbers
     println("$first $second")
 
-    val scoreMap = mutableMapOf<Int, Int>(
+    val scoreMap = mutableMapOf(
         40 to 10,
         39 to 9,
-        38 to 8,
-        37 to 7,
-        36 to 7,
-        35 to 7,
-        34 to 6,
-        33 to 6,
-        32 to 6,
-        31 to 5,
-        30 to 5,
-        29 to 5,
-        28 to 4,
-        27 to 4,
-        26 to 4,
-        25 to 4,
-        24 to 3,
-        23 to 3,
-        22 to 3,
-        21 to 2,
-        20 to 2,
-        19 to 2,
+        38 to 8
     )
     for (i in 0..18) scoreMap[i] = 1
+    for (i in 19..21) scoreMap[i] = 2
+    for (i in 22..24) scoreMap[i] = 3
+    for (i in 25..28) scoreMap[i] = 4
+    for (i in 29..31) scoreMap[i] = 5
+    for (i in 32..34) scoreMap[i] = 6
+    for (i in 35..37) scoreMap[i] = 7
     
     
     val answerCounts = listOf(3, 6, 10, 15, 20 , 31, 34, 35, 40)
