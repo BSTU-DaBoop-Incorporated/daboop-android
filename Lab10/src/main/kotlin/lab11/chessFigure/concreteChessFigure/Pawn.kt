@@ -27,12 +27,28 @@ class Pawn(chessBoard: ChessBoard, color: ChessFigure.ChessColor, position: Ches
             return false
         }
             
+        val (x, y) = this.position!!
+        val (newX, newY) = position
+        
         if (color == ChessFigure.ChessColor.WHITE) {
-            return position.first == this.position!!.first + 1 && position.second == this.position!!.second + 1 ||
-                    position.first == this.position!!.first - 1 && position.second == this.position!!.second + 1
+            if (newY - y != 1) {
+                return false
+            }
+            if (newX - x == 1 || newX - x == -1) {
+                return isTileOccupiedByEnemy(position)
+            }
         }
-        return position.first == this.position!!.first + 1 && position.second == this.position!!.second - 1 ||
-                position.first == this.position!!.first - 1 && position.second == this.position!!.second - 1
+        
+        if (color == ChessFigure.ChessColor.BLACK) {
+            if (y - newY != 1) {
+                return false
+            }
+            if (newX - x == 1 || newX - x == -1) {
+                return isTileOccupiedByEnemy(position)
+            }
+        }
+        
+        return false
     }
     override fun canMoveToPosition(position: ChessPosition): Boolean {
         if (!canMoveToPositionDefault(position)) {

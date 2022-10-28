@@ -6,8 +6,20 @@ import lab11.chessFigure.ChessPosition
 import lab11.chessFigure.concreteChessFigure.Pawn
 import lab11.chessFigure.concreteChessFigure.Rook
 
+
+fun ChessBoard.removeFigure(position: ChessPosition) {
+    val figure = this.getFigureAtPosition(position)
+
+    val field = ChessBoard::class.java.getDeclaredField("_chessFigures")
+
+    field.isAccessible = true
+    val list = field.get(this) as MutableList<ChessFigure>
+    if (figure != null) {
+        list.remove(figure)
+    }
+}
 class ChessBoard {
-    val MAX_ALLOWED_FIGURES = mapOf<ChessFigureType, Int>(
+    val MAX_ALLOWED_FIGURES = mapOf(
         PAWN to 8,
         ROOK to 2,
         KNIGHT to 2,

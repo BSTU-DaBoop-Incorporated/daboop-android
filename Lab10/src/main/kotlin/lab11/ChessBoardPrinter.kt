@@ -13,7 +13,9 @@ object ChessBoardPrinter {
         
     )
     @JvmStatic
-    fun drawInConsole(board: ChessBoard) {
+    fun drawInConsole(board: ChessBoard, watchedFigure: ChessFigure? = null) {
+        val yellowBg = "\u001B[43m"
+        val blueBg = "\u001B[44m"
         val red = "\u001b[31m"
         val reset = "\u001b[0m"
         
@@ -35,7 +37,8 @@ object ChessBoardPrinter {
                 val color = figure?.color?.let {
                     if (it == ChessFigure.ChessColor.BLACK) red else ""
                 } ?: ""
-                print("$color$symbol$reset  ")
+                val bg = if (watchedFigure?.canAttack(position) == true) blueBg else  if (watchedFigure?.canMoveToPosition(position) == true) yellowBg else ""
+                print("$bg$color$symbol  $reset")
             }
             println()
         }

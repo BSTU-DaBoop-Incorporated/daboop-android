@@ -4,6 +4,7 @@ import lab11.ChessBoard
 import lab11.chessFigure.ChessFigure
 import lab11.chessFigure.ChessFigureImpl
 import lab11.chessFigure.ChessPosition
+import kotlin.math.min
 
 class Rook(chessBoard: ChessBoard, color: ChessFigure.ChessColor, position: ChessPosition?): ChessFigureImpl(chessBoard, color, ChessFigure.ChessFigureType.ROOK, position) {
     constructor(chessBoard: ChessBoard, color: ChessFigure.ChessColor) : this(chessBoard, color, null) {
@@ -20,16 +21,22 @@ class Rook(chessBoard: ChessBoard, color: ChessFigure.ChessColor, position: Ches
         if (x!= newX && y!= newY)
             return false
         if (x == newX) {
-            for (i in y..newY) {
-                if (!chessBoard.isTileClear(ChessPosition(x, i))) {
+            val minY = if (y < newY) y else newY
+            val maxY = if (y > newY) y else newY
+            for (i in minY..maxY) {
+                if(y == i) continue
+                if (!chessBoard.isTileClear(ChessPosition(x, i)) && !isTileOccupiedByEnemy(position)) {
                     return false
                 }
             }
             return isTileOccupiedByEnemy(position)
         }
         if (y == newY) {
-            for (i in x..newX) {
-                if (!chessBoard.isTileClear(ChessPosition(i, y))) {
+            val minX = if (x < newX) x else newX
+            val maxX = if (x > newX) x else newX
+            for (i in minX..maxX) {
+                if(x == i) continue
+                if (!chessBoard.isTileClear(ChessPosition(i, y)) && !isTileOccupiedByEnemy(position)) {
                     return false
                 }
             }
@@ -50,13 +57,19 @@ class Rook(chessBoard: ChessBoard, color: ChessFigure.ChessColor, position: Ches
             return false
         
         if (x == newX) {
-            for (i in y..newY) {
+            val minY = if (y < newY) y else newY
+            val maxY = if (y > newY) y else newY
+            for (i in minY..maxY) {
+                if(y == i) continue
                 if (!chessBoard.isTileClear(ChessPosition(x, i))) return false
             }
             return true
         }
         if (y == newY) {
-            for (i in x..newX) {
+            val minX = if (x < newX) x else newX
+            val maxX = if (x > newX) x else newX
+            for (i in minX..maxX) {
+                if(x == i) continue
                 if (!chessBoard.isTileClear(ChessPosition(i, y))) return false
             }
             return true
