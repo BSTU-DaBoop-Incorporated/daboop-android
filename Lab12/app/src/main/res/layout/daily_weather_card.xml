@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="dailyWeather"
+                type="com.example.lab12.fragment.weather.DailyWeather" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="4dp"
+            app:contentPadding="10dp"
+            android:foreground="?android:attr/selectableItemBackground">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp">
+            <com.github.pwittchen.weathericonview.WeatherIconView
+                    android:id="@+id/weather_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{context.getString(dailyWeather.weatherIcon)}"
+                    app:weatherIconColor="@android:color/black"
+                    app:weatherIconSize="70" />
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                <TextView
+                        style="@style/TextAppearance.AppCompat.Headline"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:text="@{dailyWeather.time}" />
+                
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+
+                    <TextView
+                            android:textColor="?colorPrimary"
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{dailyWeather.temperature_2m_min}" />
+
+                    <TextView
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="-" />
+
+                    <TextView
+                            android:textColor="?colorPrimary"
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{dailyWeather.temperature_2m_max}" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        
+        
+       
+    </androidx.cardview.widget.CardView>
+</layout>
+

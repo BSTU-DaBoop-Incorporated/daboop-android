@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lab12</string>
+    <string name="tab_text_1">Currencies</string>
+    <string name="tab_text_2">Weather</string>
+</resources>
